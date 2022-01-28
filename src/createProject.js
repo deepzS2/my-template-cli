@@ -5,10 +5,12 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { promisify } from 'util'
 
+import { tasks } from './tasks.js'
+
 const access = promisify(fs.access)
 const copy = promisify(ncp)
 
-async function copyTemplateFiles(options) {
+export async function copyTemplateFiles(options) {
   if (!options.templateDirectory || !options.targetDirectory) return
 
   return copy(options.templateDirectory, options.targetDirectory, {
@@ -29,13 +31,7 @@ export async function createProject(options) {
     options.type.toLowerCase()
   )
 
-  console.log(
-    path.resolve(
-      fileURLToPath(currentFileUrl),
-      './templates',
-      options.type.toLowerCase()
-    )
-  )
+  console.log(templateDir)
 
   options.templateDirectory = templateDir
 
@@ -46,8 +42,7 @@ export async function createProject(options) {
     process.exit(1)
   }
 
-  console.log('Copy project files')
-  await copyTemplateFiles(options)
+  await tasks(options).run()
 
   console.log('%s Project ready', chalk.green.bold('DONE'))
   return true
