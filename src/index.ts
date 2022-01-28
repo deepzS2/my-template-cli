@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import promptQuestions from "./prompt";
+import promptQuestions from './prompt'
 
 promptQuestions()

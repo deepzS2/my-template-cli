@@ -1,9 +1,9 @@
 import * as ejs from 'ejs'
 
 export interface TemplateData {
-    projectName: string
+	projectName: string
 }
 
 export function render(content: string, data: TemplateData) {
-    return ejs.render(content, data);
+	return ejs.render(content, data)
 }

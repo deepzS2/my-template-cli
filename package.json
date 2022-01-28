@@ -9,7 +9,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc && shx rm -rf dist/templates && shx cp -r src/templates dist",
-    "lint": "eslint --fix"
+    "lint": "eslint --fix --ext .ts ."
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
