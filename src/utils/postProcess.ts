@@ -1,3 +1,4 @@
+import chalk = require('chalk')
 import * as fs from 'fs'
 import * as path from 'path'
 import * as shell from 'shelljs'
@@ -7,13 +8,23 @@ import { CliOptions } from '../@types/global'
 export default function postProcess(options: CliOptions) {
     const isNode = fs.existsSync(path.join(options.templatePath, 'package.json'))
 
-    if (!isNode || !options.runInstall) return false
+    if (!isNode) return
 
     shell.cd(options.targetPath)
 
-    const result = shell.exec('yarn install')
-
-    if (result.code !== 0) return false
+    try {
+      if (isNode && options.runInstall) execute('yarn install', 'Você não tem yarn instalado!')
+      else if (options.runGitInit) execute('git init', 'Você não tem git instalado!')
+    } catch (error) {
+      console.log((error as Error)?.message)
+      return process.exit(1)
+    }
     
-    return true;
+    return true
+}
+
+function execute(command: string, errorMsg: string) {
+  const result = shell.exec(command)
+
+  if (result.code !== 0) throw new Error(chalk.red.bold('ERROR') + ' ' + chalk.bold(errorMsg))
 }

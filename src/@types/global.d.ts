@@ -5,6 +5,7 @@ export interface CliOptions {
   targetPath: string
   useTypescript: boolean
   runInstall: boolean
+  runGitInit: boolean
 }
 
 export interface Args {

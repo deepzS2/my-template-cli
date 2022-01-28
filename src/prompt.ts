@@ -7,7 +7,9 @@ import createProject from './createProject'
 import { Args, CliOptions } from './@types/global'
 import createDirectoryContents from './createDirectoryContents'
 import postProcess from './utils/postProcess'
+import chalk = require('chalk')
 
+const REGEX_NAME = /^([A-Za-z\-\_\d])+$/gm
 const args = yargs.argv as Args
 
 const INITIAL_QUESTIONS: inquirer.QuestionCollection<Questions1> = [
@@ -15,7 +17,8 @@ const INITIAL_QUESTIONS: inquirer.QuestionCollection<Questions1> = [
       name: 'name',
       type: 'input',
       message: 'Nome do projeto:',
-      when: () => args['_'].length === 0 
+      when: () => args['_'].length === 0,
+      validate: (input) => REGEX_NAME.test(input)
   },
   {
       name: 'ts',
@@ -23,6 +26,12 @@ const INITIAL_QUESTIONS: inquirer.QuestionCollection<Questions1> = [
       message: 'Gostaria de utilizar TypeScript?',
       default: true,
       when: () => args['ts'] === undefined
+  },
+  {
+    name: 'git',
+    type: 'confirm',
+    message: 'Gostaria de inicializar um repositório git?',
+    default: false
   }
 ];
 
@@ -44,6 +53,7 @@ const getFinalQuestions = (choices: string[]): inquirer.QuestionCollection<Quest
 interface Questions1 {
   name: string
   ts: boolean
+  git: boolean
 }
 
 interface Questions2 {
@@ -52,12 +62,17 @@ interface Questions2 {
 }
 
 export default async function promptQuestions() {
+  const name = args['_'][0] as string
+
+  if (!REGEX_NAME.test(name)) {
+    console.log(chalk.bold.red('ERROR') + ' Você deve apenas utilizar caracteres, números, underscores ou traços para nome') 
+    process.exit(1)
+  }
+  
   let answers = await inquirer.prompt(INITIAL_QUESTIONS)
-
-  answers.name = args['_'][0] as string
+  
+  answers.name = name
   answers.ts = !!args['ts']
-
-  answers = Object.assign({}, answers, yargs.argv);
 
   const projectName = answers['name']
   const useTypescript = answers.ts ? 'typescript' : 'javascript'
@@ -75,7 +90,8 @@ export default async function promptQuestions() {
       templatePath,
       targetPath,
       useTypescript: answers.ts,
-      runInstall
+      runInstall,
+      runGitInit: answers.git
   }
 
   if (!createProject(targetPath)) return
