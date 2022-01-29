@@ -1,3 +1,4 @@
+import * as chalk from 'chalk'
 import * as inquirer from 'inquirer'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -7,7 +8,7 @@ import createProject from './createProject'
 import { Args, CliOptions } from './@types/global'
 import createDirectoryContents from './createDirectoryContents'
 import postProcess from './utils/postProcess'
-import chalk = require('chalk')
+import shouldDisplayHelpMessage from './help'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 const args = yargs.argv as Args
@@ -32,6 +33,7 @@ const INITIAL_QUESTIONS: inquirer.QuestionCollection<Questions1> = [
 		type: 'confirm',
 		message: 'Gostaria de inicializar um repositório git?',
 		default: false,
+		when: () => args['git'] === undefined,
 	},
 ]
 
@@ -43,12 +45,15 @@ const getFinalQuestions = (
 		type: 'list',
 		message: 'Qual template você gostaria de utilizar?',
 		choices: choices,
+		when: () =>
+			typeof args['template'] !== 'string' || typeof args['t'] !== 'string',
 	},
 	{
 		name: 'runInstall',
 		type: 'confirm',
 		message: 'Gostaria de instalar as dependências automaticamente',
 		default: true,
+		when: () => args['install'] === undefined,
 	},
 ]
 
@@ -64,7 +69,10 @@ interface Questions2 {
 }
 
 export default async function promptQuestions() {
+	if (shouldDisplayHelpMessage(args)) process.exit()
+
 	const name = args['_'][0] as string
+	const template = (args['template'] as string) || (args['t'] as string)
 
 	if (!REGEX_NAME.test(name)) {
 		console.log(
@@ -76,11 +84,8 @@ export default async function promptQuestions() {
 
 	const answers = await inquirer.prompt(INITIAL_QUESTIONS)
 
-	answers.name = name
-	answers.ts = !!args['ts']
-
-	const projectName = answers['name']
-	const useTypescript = answers.ts ? 'typescript' : 'javascript'
+	const projectName = answers['name'] || name
+	const useTypescript = answers.ts || !!args['ts'] ? 'typescript' : 'javascript'
 
 	const templatesLanguagePath = path.join(__dirname, 'templates', useTypescript)
 
@@ -88,7 +93,11 @@ export default async function promptQuestions() {
 		getFinalQuestions(fs.readdirSync(templatesLanguagePath))
 	)
 
-	const templatePath = path.join(templatesLanguagePath, projectTemplate)
+	const templatePath = path.join(
+		templatesLanguagePath,
+		projectTemplate || template
+	)
+
 	const targetPath = path.join(process.cwd(), projectName)
 
 	const options: CliOptions = {
@@ -96,15 +105,13 @@ export default async function promptQuestions() {
 		templateName: projectTemplate,
 		templatePath,
 		targetPath,
-		useTypescript: answers.ts,
-		runInstall,
-		runGitInit: answers.git,
+		useTypescript: answers.ts || !!args['ts'],
+		runInstall: runInstall || !!args['install'],
+		runGitInit: answers.git || !!args['git'],
 	}
 
 	if (!createProject(targetPath)) return
 
 	createDirectoryContents(templatePath, projectName)
 	postProcess(options)
-
-	console.log(options)
 }
