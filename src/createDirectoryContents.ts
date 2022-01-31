@@ -1,4 +1,3 @@
-import * as chalk from 'chalk'
 import * as fs from 'fs'
 import * as path from 'path'
 import { render } from './utils/template'
@@ -9,13 +8,6 @@ export default function createDirectoryContents(
 	templatePath: string,
 	projectName: string
 ) {
-	if (!fs.existsSync(templatePath))
-		return console.log(
-			chalk.bold.red('ERROR') +
-				' ' +
-				chalk.bold('Não encontrei um template com esse nome')
-		)
-
 	const filesToCreate = fs.readdirSync(templatePath)
 
 	filesToCreate.forEach((file) => {

@@ -1,6 +1,5 @@
 import * as chalk from 'chalk'
 import * as inquirer from 'inquirer'
-import * as fs from 'fs'
 import * as path from 'path'
 import * as yargs from 'yargs'
 
@@ -9,6 +8,7 @@ import { Args, CliOptions } from './@types/global'
 import createDirectoryContents from './createDirectoryContents'
 import postProcess from './utils/postProcess'
 import shouldDisplayHelpMessage from './help'
+import { getAllTemplatesFromPath, getTemplatePath } from './getTemplatePath'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 const args = yargs.argv as Args
@@ -46,7 +46,7 @@ const getFinalQuestions = (
 		message: 'Qual template você gostaria de utilizar?',
 		choices: choices,
 		when: () =>
-			typeof args['template'] !== 'string' || typeof args['t'] !== 'string',
+			typeof args['template'] !== 'string' && typeof args['t'] !== 'string',
 	},
 	{
 		name: 'runInstall',
@@ -90,13 +90,23 @@ export default async function promptQuestions() {
 	const templatesLanguagePath = path.join(__dirname, 'templates', useTypescript)
 
 	const { template: projectTemplate, runInstall } = await inquirer.prompt(
-		getFinalQuestions(fs.readdirSync(templatesLanguagePath))
+		getFinalQuestions(getAllTemplatesFromPath(templatesLanguagePath))
 	)
 
-	const templatePath = path.join(
-		templatesLanguagePath,
-		projectTemplate || template
+	const templatePath = getTemplatePath(
+		projectTemplate || template,
+		templatesLanguagePath
 	)
+
+	if (!templatePath) {
+		console.log(
+			chalk.bold.red('ERROR') +
+				' ' +
+				chalk.bold('Não encontrei um template com esse nome')
+		)
+
+		process.exit(1)
+	}
 
 	const targetPath = path.join(process.cwd(), projectName)
 
