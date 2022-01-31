@@ -1,0 +1,17 @@
+{
+  "presets": ["@babel/preset-typescript", "@babel/env"],
+  "plugins": [
+    "@babel/proposal-class-properties",
+
+    // Module resolver
+    ["module-resolver", {
+      "alias": {
+        "@root": ["./src"],
+        "@myTypes": ["./src/@types/index"],
+        "@controllers/*": ["./src/controllers/*"],
+        "@database/*": ["./src/database/*"],
+        "@utils/*": ["./src/utils/*"]
+      }
+  }]
+]
+}

@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { render } from './utils/template'
+import { render } from './utils/ejsTemplate'
 
 const SKIP_FILES = ['node_modules', '.template.json']
 

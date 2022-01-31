@@ -8,7 +8,7 @@ import createDirectoryContents from './createDirectoryContents'
 import postProcess from './utils/postProcess'
 import shouldDisplayHelpMessage from './help'
 import Templates from './templates'
-import ErrorCLI from './error'
+import ErrorCLI from './utils/error'
 import {
 	firstQuestions,
 	lastQuestions,
