@@ -15,8 +15,8 @@ export default function postProcess(options: CliOptions) {
 	try {
 		if (isNode && options.runInstall)
 			execute('yarn install', 'Você não tem yarn instalado!')
-		else if (options.runGitInit)
-			execute('git init', 'Você não tem git instalado!')
+
+		if (options.runGitInit) execute('git init', 'Você não tem git instalado!')
 	} catch (error) {
 		console.log((error as Error)?.message)
 		return process.exit(1)
