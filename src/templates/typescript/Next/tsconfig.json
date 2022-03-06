@@ -17,7 +17,8 @@
 
     "baseUrl": "src",
     "paths": {
-      "@myTypes": ["@types/index"],
+      "@": ["."],
+      "@assets/*": ["assets/*"],
       "@contexts/*": ["contexts/*"],
       "@components/*": ["components/*"],
       "@services/*": ["services/*"],

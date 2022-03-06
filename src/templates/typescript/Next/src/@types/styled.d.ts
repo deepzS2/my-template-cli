@@ -1,13 +1,9 @@
 import 'styled-components'
+import theme from '@styles/theme'
 
 declare module 'styled-components' {
-	export interface DefaultTheme {
-		borderRadius: string
+	type MyTheme = typeof theme
 
-		colors: {
-			main: string
-			secondary: string
-			tertiary: string
-		}
-	}
+	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	export interface DefaultTheme extends MyTheme {}
 }
