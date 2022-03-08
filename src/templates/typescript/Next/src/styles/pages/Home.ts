@@ -48,6 +48,13 @@ export const Description = styled.p`
 	}
 `
 
+export const ButtonsWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 50%;
+`
+
 export const Grid = styled.div`
 	display: flex;
 	align-items: center;

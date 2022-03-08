@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRef } from 'react'
+import { MdClose } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 import Button from '@components/Button'
 import Footer from '@components/Footer'
@@ -13,6 +15,7 @@ import {
 	Main,
 	Title,
 	ModalContent,
+	ButtonsWrapper,
 } from '@styles/pages/Home'
 
 const Home: NextPage = () => {
@@ -45,7 +48,7 @@ const Home: NextPage = () => {
 								pointer
 								bgColor="red"
 							>
-								Close
+								Close <MdClose size={20} style={{ marginLeft: '.5rem' }} />
 							</Button>
 						</div>
 					</ModalContent>
@@ -59,9 +62,27 @@ const Home: NextPage = () => {
 					Get started by editing <code>pages/index.tsx</code>
 				</Description>
 
-				<Button onClick={() => modalRef.current.open()} pointer>
-					Try opening modal
-				</Button>
+				<ButtonsWrapper>
+					<Button onClick={() => modalRef.current.open()} pointer>
+						Try opening modal
+					</Button>
+					<Button
+						onClick={() =>
+							toast.info("I'm a toast :D", {
+								position: 'top-right',
+								autoClose: 5000,
+								hideProgressBar: false,
+								closeOnClick: true,
+								pauseOnHover: true,
+								draggable: true,
+							})
+						}
+						pointer
+						inverted
+					>
+						Try opening toast
+					</Button>
+				</ButtonsWrapper>
 
 				<Grid>
 					<Card href="https://nextjs.org/docs">

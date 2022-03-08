@@ -22,4 +22,7 @@ export const Container = styled.button<ContainerProps>`
 	padding: ${({ customPadding }) => customPadding || '1rem 3rem'};
 	font-weight: ${({ customFontWeight }) => customFontWeight || '600'};
 	font-size: ${({ customFontSize }) => customFontSize || '16px'};
+
+	display: flex;
+	align-items: center;
 `
