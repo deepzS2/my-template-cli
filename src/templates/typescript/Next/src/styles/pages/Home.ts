@@ -90,3 +90,18 @@ export const Card = styled.a`
 		line-height: 1.5;
 	}
 `
+
+export const ModalContent = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.buttons {
+		display: flex;
+		gap: 1rem;
+		width: 100%;
+		flex-direction: row-reverse;
+		justify-content: space-between;
+		align-items: center;
+	}
+`

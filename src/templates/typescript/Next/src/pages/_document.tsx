@@ -39,6 +39,7 @@ export default class MyDocument extends Document {
 			<Html>
 				<Head />
 				<body>
+					<div id="dpzt__modal-root"></div>
 					<Main />
 					<NextScript />
 				</body>
