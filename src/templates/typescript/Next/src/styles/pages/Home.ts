@@ -20,6 +20,10 @@ export const Title = styled.h1`
 	font-size: 4rem;
 	text-align: center;
 
+	span {
+		font-size: 2rem;
+	}
+
 	a {
 		color: ${({ theme }) => theme.colors.main};
 		text-decoration: none;
@@ -53,48 +57,11 @@ export const ButtonsWrapper = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	width: 50%;
-`
+	margin-bottom: 1rem;
 
-export const Grid = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	max-width: 800px;
-
-	@media (max-width: 600px) {
-		width: 100%;
-		flex-direction: column;
-	}
-`
-
-export const Card = styled.a`
-	margin: 1rem;
-	padding: 1.5rem;
-	text-align: left;
-	color: inherit;
-	text-decoration: none;
-	border: 1px solid ${({ theme }) => theme.colors.secondary};
-	border-radius: 10px;
-	transition: color 0.15s ease, border-color 0.15s ease;
-	max-width: 300px;
-
-	&:hover,
-	&:focus,
-	&:active {
-		color: ${({ theme }) => theme.colors.main};
-		border-color: ${({ theme }) => theme.colors.main};
-	}
-
-	h2 {
-		margin: 0 0 1rem 0;
-		font-size: 1.5rem;
-	}
-
-	p {
-		margin: 0;
-		font-size: 1.25rem;
-		line-height: 1.5;
+	button {
+		flex: 1 0 40%;
+		max-width: 40%;
 	}
 `
 

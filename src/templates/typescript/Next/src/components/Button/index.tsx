@@ -13,31 +13,10 @@ interface Props {
 	onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: React.FC<Props> = ({
-	children,
-	inverted,
-	pointer,
-	fontSize,
-	fontWeight,
-	bgColor,
-	padding,
-	textColor,
-	onClick,
-}) => {
-	return (
-		<Container
-			onClick={onClick}
-			customPadding={padding}
-			textColor={textColor}
-			bgColor={bgColor}
-			inverted={inverted}
-			pointer={pointer}
-			customFontSize={fontSize}
-			customFontWeight={fontWeight}
-		>
-			{children}
-		</Container>
-	)
+const Button: React.FC<
+	Props & React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ children, ...props }) => {
+	return <Container {...props}>{children}</Container>
 }
 
 export default Button

@@ -1,4 +1,6 @@
-import { NextPage } from 'next'
+import { AxiosError } from 'axios'
+import { GetServerSideProps, NextPage } from 'next'
+import { useQuery } from 'react-query'
 
 import api from '@services/api'
 
@@ -10,34 +12,59 @@ interface Post {
 }
 
 interface Props {
-	error?: Error
 	posts?: Post[]
 }
 
-const Posts: NextPage<Props> = ({ posts, error }) => {
+const delay = (seconds: number) => {
+	return new Promise((resolve) => {
+		setTimeout(resolve, 1000 * seconds)
+	})
+}
+
+const Posts: NextPage<Props> = ({ posts }) => {
+	const { data, isRefetching, error } = useQuery<Post[], AxiosError>(
+		'posts',
+		async () => {
+			const { data: posts } = await api.get('/posts')
+
+			await delay(3)
+
+			return posts
+		},
+		{
+			initialData: posts,
+			refetchOnWindowFocus: true,
+			staleTime: 1000 * 60 * 1, // 1min
+		}
+	)
+
 	if (error) {
-		return <div>An error occured: {error.message}</div>
+		return <div>An error occured: {error?.message}</div>
 	}
 
 	return (
-		<ul>
-			{posts?.map((post) => (
-				<li key={post.id}>
-					<h1>{post.title}</h1>
-					<p>{post.body}</p>
-				</li>
-			))}
-		</ul>
+		<>
+			{isRefetching && <h1>Estamos dando refetch...</h1>}
+			<ul>
+				{Array.isArray(data) &&
+					data?.map((post) => (
+						<li key={post.id}>
+							<h1>{post.title}</h1>
+							<p>{post.body}</p>
+						</li>
+					))}
+			</ul>
+		</>
 	)
 }
 
-Posts.getInitialProps = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
 	try {
-		const { data: posts } = await api.get('/posts')
+		const { data: posts } = await api.get<Post[]>('/posts')
 
-		return { posts }
+		return { props: { posts } }
 	} catch (error) {
-		return { error: error as Error }
+		return { props: {} }
 	}
 }
 
