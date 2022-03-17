@@ -2,6 +2,7 @@ import * as inquirer from 'inquirer'
 import * as path from 'path'
 import * as yargs from 'yargs'
 
+import { initialQuestion, shellQuestions, templateQuestion } from './models'
 import { Args, CliOptions } from './@types/global'
 import createProject from './createProject'
 import createDirectoryContents from './createDirectoryContents'
@@ -9,11 +10,7 @@ import postProcess from './utils/postProcess'
 import shouldDisplayHelpMessage from './help'
 import Templates from './templates'
 import ErrorCLI from './utils/error'
-import {
-	firstQuestions,
-	lastQuestions,
-	createChoiceQuestion,
-} from './questions'
+import nextTemplateQuestions from './models/templates/nextTemplateQuestions'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 const args = yargs.argv as Args
@@ -30,22 +27,16 @@ export default async function promptQuestions() {
 		)
 	}
 
-	const questions = firstQuestions(args)
-	const firstAnswers = await inquirer.prompt(questions)
+	const initialAnswers = await inquirer.prompt(initialQuestion(args))
 
-	const projectName = firstAnswers.name || nameArg
+	const projectName = initialAnswers.name || nameArg
+	const useTypescript = initialAnswers.ts || !!args.ts
 
-	const templates = new Templates(firstAnswers.ts || !!args.ts)
-	const templatesAvailable = templates.getAllTemplatesFromPath()
+	const templates = new Templates(useTypescript)
 
-	const templateQuestion = createChoiceQuestion(
-		'template',
-		'Qual template você gostaria de utilizar?',
-		templatesAvailable.map((choice) => choice.name),
-		() => typeof templateArg !== 'string'
+	const { template: templateName } = await inquirer.prompt(
+		templateQuestion(args, templates)
 	)
-
-	const { template: templateName } = await inquirer.prompt(templateQuestion)
 	const templatePath = templates.getTemplatePath(templateName || templateArg)
 
 	if (!templatePath) {
@@ -53,20 +44,26 @@ export default async function promptQuestions() {
 	}
 
 	const targetPath = path.join(process.cwd(), projectName)
-	const lastAnswers = await inquirer.prompt(lastQuestions(args))
+	const shellAnswers = await inquirer.prompt(shellQuestions(args))
 
 	const options: CliOptions = {
 		projectName,
 		templateName,
 		templatePath,
 		targetPath,
-		useTypescript: firstAnswers.ts || !!args.ts,
-		runInstall: lastAnswers.runInstall || !!args.install,
-		runGitInit: lastAnswers.git || !!args.git,
+		useTypescript,
+		runInstall: shellAnswers.runInstall || !!args.install,
+		runGitInit: shellAnswers.git || !!args.git,
 	}
 
 	if (!createProject(targetPath)) return
 
-	createDirectoryContents(templatePath, projectName)
+	if (options.templateName.toLowerCase() === 'next') {
+		const { templateOptions } = await inquirer.prompt(nextTemplateQuestions())
+		createDirectoryContents(templatePath, projectName, templateOptions)
+	} else {
+		createDirectoryContents(templatePath, projectName)
+	}
+
 	postProcess(options)
 }
