@@ -28,9 +28,10 @@ Options:
 ## TODOs
 - [x] More README content
 - [x] Express with Typescript template
-- [ ] React with JavaScript and TypeScript template
-- [ ] React Native with JavaScript and TypeScript template
 - [x] Next with JavaScript and TypeScript template
-- [ ] English translation?
+- [ ] React Native with JavaScript and TypeScript template
+- [ ] Templates sub options
+- [ ] I18n?
 - [ ] Component generation? (`dpzt generate`)
 - [ ] Database config generation? (`dpzt database`)
+- [ ] .NET templates?
