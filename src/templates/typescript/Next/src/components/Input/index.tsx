@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { UseFormRegisterReturn } from 'react-hook-form'
+<% if (useForm) { %> import { UseFormRegisterReturn } from 'react-hook-form' <% } %>
 
 import { Container } from './styles'
 
@@ -11,7 +11,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.ForwardRefRenderFunction<
 	HTMLInputElement,
-	Props & Partial<UseFormRegisterReturn>
+	Props <% if (useForm) { %> & Partial<UseFormRegisterReturn> <% } %>
 > = ({ invalidMessage, invalid, ...props }, ref) => {
 	return (
 		<Container className="input-wrapper" invalid={invalid}>

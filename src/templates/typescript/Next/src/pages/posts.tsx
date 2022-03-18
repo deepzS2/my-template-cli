@@ -1,6 +1,8 @@
 import { AxiosError } from 'axios'
 import { GetServerSideProps, NextPage } from 'next'
-import { useQuery } from 'react-query'
+<% if (useQuery) { %> 
+  import { useQuery } from 'react-query' 
+<% } %>
 
 import api from '@services/api'
 
@@ -14,14 +16,15 @@ interface Post {
 interface Props {
 	posts?: Post[]
 }
-
-const delay = (seconds: number) => {
-	return new Promise((resolve) => {
-		setTimeout(resolve, 1000 * seconds)
-	})
-}
-
+<% if (useQuery) { %>
+  const delay = (seconds: number) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 1000 * seconds)
+    })
+  }
+<% } %>
 const Posts: NextPage<Props> = ({ posts }) => {
+<% if (useQuery) { %>
 	const { data, isRefetching, error } = useQuery<Post[], AxiosError>(
 		'posts',
 		async () => {
@@ -37,12 +40,10 @@ const Posts: NextPage<Props> = ({ posts }) => {
 			staleTime: 1000 * 60 * 1, // 1min
 		}
 	)
-
-	if (error) {
-		return <div>An error occured: {error?.message}</div>
-	}
+<% } %>
 
 	return (
+    <% if (useQuery) { %>
 		<>
 			{isRefetching && <h1>Estamos dando refetch...</h1>}
 			<ul>
@@ -54,6 +55,17 @@ const Posts: NextPage<Props> = ({ posts }) => {
 						</li>
 					))}
 			</ul>
+<% } else { %>
+			<ul>
+				{Array.isArray(posts) &&
+					posts.map((post) => (
+						<li key={post.id}>
+							<h1>{post.title}</h1>
+							<p>{post.body}</p>
+						</li>
+					))}
+			</ul>
+<% } %>
 		</>
 	)
 }
