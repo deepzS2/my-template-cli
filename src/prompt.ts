@@ -35,10 +35,11 @@ export default async function promptQuestions() {
 
 	const templates = new Templates(useTypescript)
 
-	const { template: templateName } = await inquirer.prompt(
+	const { template: questionTemplateName } = await inquirer.prompt(
 		templateQuestion(args, templates)
 	)
-	const templatePath = templates.getTemplatePath(templateName || templateArg)
+	const templateName = questionTemplateName || templateArg
+	const templatePath = templates.getTemplatePath(templateName)
 
 	if (!templatePath) {
 		throw new ErrorCLI('Não encontrei um template com esse nome')

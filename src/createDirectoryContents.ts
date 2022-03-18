@@ -42,7 +42,6 @@ export default function createDirectoryContents<
 			fileNameSplitted[1]
 
 		let filename = file
-		console.log(file)
 
 		// Verifica se a extensão existe e não esta na lista de extensões permitidas
 		if (
@@ -60,7 +59,6 @@ export default function createDirectoryContents<
 
 		if (stats.isFile()) {
 			let contents = fs.readFileSync(origFilePath, 'utf8')
-			console.log(templateOptionsParsed)
 			contents = render(contents, { projectName, ...templateOptionsParsed })
 
 			if (filename === '.npmignore') filename = '.gitignore'
