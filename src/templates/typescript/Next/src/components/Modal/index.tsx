@@ -20,7 +20,7 @@ export interface ModalRef {
 	close: () => void
 }
 
-const Modal: React.ForwardRefRenderFunction<ModalRef, Props> = (
+const Modal: React.ForwardRefRenderFunction<ModalRef | undefined, Props> = (
 	{ children, defaultOpened = false },
 	ref
 ) => {

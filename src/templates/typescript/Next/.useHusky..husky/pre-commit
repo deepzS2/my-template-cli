@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+## Verificar padrão eslint 
+yarn lint || (
+  echo 'Seu código está com uma estilização diferente 🧐, verifique seu código e arrume!';
+  # echo 'Seu código está feio🤮🤮🤮🤮, verifique os erros e tente novamente';
+  false;
+)
+
+## Tentar Build
+yarn build || (
+  echo '👷🚨 Suas alterações comprometeram a build! Verifique os erros no console...'
+  # echo 'Sua aplicação falhou ao iniciar a build';
+  false
+)

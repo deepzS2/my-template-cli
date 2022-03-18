@@ -18,7 +18,7 @@ const question = (
 		message: 'Qual template você gostaria de utilizar?',
 		choices: templatesAvailable.map((choice) => choice.name),
 		when: () =>
-			typeof args['template'] !== 'string' || typeof args['t'] !== 'string',
+			typeof args['template'] !== 'string' && typeof args['t'] !== 'string',
 	}
 }
 
