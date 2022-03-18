@@ -1,18 +1,21 @@
 # deepz templates cli
-**deepz templates cli** is a [NodeJS](https://nodejs.org) CLI to generate projects using my most common configuration with [Eslint](https://eslint.org), [Prettier](https://prettier.io) and even [TypeScript](https://www.typescriptlang.org). 
+**deepz templates cli** é um [NodeJS](https://nodejs.org) CLI para gerar projetos usando as configurações mais comuns com [Eslint](https://eslint.org), [Prettier](https://prettier.io) e até mesmo [TypeScript](https://www.typescriptlang.org). 
 
-Feel free to fork this project or use it yourself! Any recommendations or suggestions are welcome.
+Sinta-se livre para dar fork no projeto ou usa-lo! Qualquer recomendação ou sugestão é bem-vinda.
 
-## How it works?
-Every file on [src folder](src) will handle each task like [prompt questions](src/prompt.ts), [create directory content](src/createDirectoryContents.ts), etc.
+## Como funciona?
+Todos os arquivos dentro da pasta [src](src) terá sua respectiva tarefa como [dar prompt das perguntas](src/prompt.ts), [criar conteúdo dos diretórios](src/createDirectoryContents.ts), etc.
 
-When creating the a new project the script will use the [templates](src/templates/) folder to search for the corresponding template, like: When you want to use [Express](https://expressjs.com) with JavaScript you it will search for the template inside [JavaScript folder](src/templates/javascript) and get the Express folder.
+Quando criar um novo projeto o script irá utilizar a pasta [templates](src/templates/) para procurar pelo template correspondente, como por exemplo: Se você deseja utilizar o template [Express](https://expressjs.com) com JavaScript você vai o respectivo template dentro da pasta [javascript](src/templates/javascript/) e pegar a pasta [Express](src/templates/javascript/Express/)
 
-Note that the script will use the name of the template folder when using the CLI, so if the folder is named hElO on the console it will look exactly the same and 
-will be case insensitive with `-t, --template` option.
+Note que o script irá utilizar os nomes das pastas como opções de templates, então se você tiver uma pasta chamada `vIrUs`, no terminal ele vai ter exatamente o mesmo nome e será `case insensitive` com a opção `-t, --templates`.
 
-## How I can use it?
-You can use `dpzt --help` or `dpzt -h` to check the usage and options you can provide:
+## Como posso usar?
+O projeto, por enquanto, não foi publicado no NPM, porém futuramente será!
+
+Primeiramente você deve clonar o projeto e rodar no seu terminal `yarn build`, ele irá rodar os scripts de build e fazer um link
+
+Você pode usar `dpzt --help` ou `dpzt -h` para ver a mensagem de ajuda do CLI
 ```
 Usage: dpzt [name] [options]
 
@@ -26,12 +29,11 @@ Options:
 ```
 
 ## TODOs
-- [x] More README content
-- [x] Express with Typescript template
-- [x] Next with JavaScript and TypeScript template
-- [ ] React Native with JavaScript and TypeScript template
-- [ ] Templates sub options
+- [x] Mais conteúdo no README
+- [ ] Mais templates
+- [ ] Sub perguntas para cada template
+- [ ] Mudar extensão de arquivos para usar com sub perguntas de templates
 - [ ] I18n?
-- [ ] Component generation? (`dpzt generate`)
-- [ ] Database config generation? (`dpzt database`)
+- [ ] Gerar componentes? (`dpzt generate`)
+- [ ] Gerar configuração de database? (`dpzt database`)
 - [ ] .NET templates?
