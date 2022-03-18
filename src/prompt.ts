@@ -11,6 +11,7 @@ import shouldDisplayHelpMessage from './help'
 import Templates from './templates'
 import ErrorCLI from './utils/error'
 import nextTemplateQuestions from './models/templates/nextTemplateQuestions'
+import parseTemplateOptions from './utils/parseTemplateOptions'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 const args = yargs.argv as Args
@@ -60,7 +61,12 @@ export default async function promptQuestions() {
 
 	if (options.templateName.toLowerCase() === 'next') {
 		const { templateOptions } = await inquirer.prompt(nextTemplateQuestions())
-		createDirectoryContents(templatePath, projectName, templateOptions)
+		createDirectoryContents(
+			templatePath,
+			projectName,
+			templateOptions,
+			parseTemplateOptions('next', templateOptions)
+		)
 	} else {
 		createDirectoryContents(templatePath, projectName)
 	}

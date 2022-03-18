@@ -3,12 +3,27 @@ import * as path from 'path'
 import { render } from './utils/ejsTemplate'
 
 const SKIP_FILES = ['node_modules', '.template.json']
-const SKIP_EXTENSION_CHECK = ['d', 'config', 'json', 'eslintrc', 'env', 'local']
+const SKIP_EXTENSION_CHECK = [
+	'd',
+	'config',
+	'json',
+	'eslintrc',
+	'env',
+	'local',
+	'ts',
+	'tsx',
+	'ico',
+	'svg',
+	'png',
+]
 
-export default function createDirectoryContents<T extends string[]>(
+export default function createDirectoryContents<
+	T extends Record<string, boolean>
+>(
 	templatePath: string,
 	projectName: string,
-	templateOptions?: T
+	templateOptions?: string[],
+	templateOptionsParsed?: T
 ) {
 	const filesToCreate = fs.readdirSync(templatePath)
 
@@ -26,6 +41,9 @@ export default function createDirectoryContents<T extends string[]>(
 			fileNameSplitted.length >= 2 &&
 			fileNameSplitted[1]
 
+		let filename = file
+		console.log(file)
+
 		// Verifica se a extensão existe e não esta na lista de extensões permitidas
 		if (
 			hasFileExtension &&
@@ -36,22 +54,26 @@ export default function createDirectoryContents<T extends string[]>(
 			)
 
 			if (!checkForTemplateOption) return
+
+			filename = filename.replace('.' + checkForTemplateOption + '.', '')
 		}
 
 		if (stats.isFile()) {
 			let contents = fs.readFileSync(origFilePath, 'utf8')
-			contents = render(contents, { projectName })
+			console.log(templateOptionsParsed)
+			contents = render(contents, { projectName, ...templateOptionsParsed })
 
-			if (file === '.npmignore') file = '.gitignore'
+			if (filename === '.npmignore') filename = '.gitignore'
 
-			const writePath = path.join(process.cwd(), projectName, file)
+			const writePath = path.join(process.cwd(), projectName, filename)
 			fs.writeFileSync(writePath, contents, 'utf8')
 		} else if (stats.isDirectory()) {
-			fs.mkdirSync(path.join(process.cwd(), projectName, file))
+			fs.mkdirSync(path.join(process.cwd(), projectName, filename))
 			createDirectoryContents(
 				path.join(templatePath, file),
-				path.join(projectName, file),
-				templateOptions
+				path.join(projectName, filename),
+				templateOptions,
+				templateOptionsParsed
 			)
 		}
 	})
