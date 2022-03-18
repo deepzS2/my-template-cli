@@ -4,6 +4,8 @@ interface Answers {
   templateOptions: string[]
 }
 
+export const keys = ['useIcons', 'usePWA', 'useSteps', 'useHusky', 'useGrid', 'useForm', 'useQuery', 'useApexCharts']
+
 const question = (): inquirer.QuestionCollection<Answers> => {
 	return {
 			name: 'templateOptions',
@@ -12,35 +14,35 @@ const question = (): inquirer.QuestionCollection<Answers> => {
 			choices: [
         {
           name: 'React Icons (biblioteca de ícones)',
-          value: 'useIcons',
+          value: keys[0],
         },
         {
           name: 'PWA (Progressive Web App)',
-          value: 'usePWA'
+          value: keys[1]
         },
         {
           name: 'React Step Wizard (biblioteca de steps)',
-          value: 'useSteps'
+          value: keys[2]
         },
         {
           name: 'Husky (padronização de commits)',
-          value: 'useHusky'
+          value: keys[3]
         },
         {
           name: 'GridJS (biblioteca de tabelas)',
-          value: 'useGrid'
+          value: keys[4]
         },
         {
           name: 'React Hook Form (biblioteca de formulários)',
-          value: 'useForm'
+          value: keys[5]
         },
         {
           name: 'React Query (biblioteca de query e cache)',
-          value: 'useQuery'
+          value: keys[6]
         },
         {
           name: 'React Apex Charts (biblioteca de gráficos)',
-          value: 'useApexCharts'
+          value: keys[7]
         }
       ]
 		}
