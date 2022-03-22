@@ -1,26 +1,30 @@
 import * as inquirer from 'inquirer'
 import * as path from 'path'
-import * as yargs from 'yargs'
 
 import { initialQuestion, shellQuestions, templateQuestion } from './models'
 import { Args, CliOptions } from './@types/global'
+
+import args, { getArgumentIndex, getArgument } from './args'
 import createProject from './createProject'
 import createDirectoryContents from './createDirectoryContents'
 import postProcess from './utils/postProcess'
-import shouldDisplayHelpMessage from './help'
 import Templates from './templates'
 import ErrorCLI from './utils/error'
 import nextTemplateQuestions from './models/templates/nextTemplateQuestions'
 import parseTemplateOptions from './utils/parseTemplateOptions'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
-const args = yargs.argv as Args
 
 export default async function promptQuestions() {
-	if (shouldDisplayHelpMessage(args)) process.exit()
+	const argv = args.argv as Args
 
-	const nameArg = args['_'][0] as string
-	const templateArg = args.template || args.t
+	if (argv.help) {
+		args.showHelp()
+		process.exit()
+	}
+
+	const nameArg = getArgumentIndex(0) as string
+	const templateArg = getArgument({ type: 'string', keys: ['template', 't'] })
 
 	if (!REGEX_NAME.test(nameArg)) {
 		throw new ErrorCLI(
@@ -28,17 +32,20 @@ export default async function promptQuestions() {
 		)
 	}
 
-	const initialAnswers = await inquirer.prompt(initialQuestion(args))
+	const initialAnswers = await inquirer.prompt(
+		initialQuestion(args.argv as Args)
+	)
 
 	const projectName = initialAnswers.name || nameArg
-	const useTypescript = initialAnswers.ts || !!args.ts
+	const useTypescript =
+		getArgument({ type: 'boolean', keys: ['ts'] }) || initialAnswers.ts
 
 	const templates = new Templates(useTypescript)
 
 	const { template: questionTemplateName } = await inquirer.prompt(
-		templateQuestion(args, templates)
+		templateQuestion(args.argv as Args, templates)
 	)
-	const templateName = questionTemplateName || templateArg
+	const templateName = templateArg || questionTemplateName
 	const templatePath = templates.getTemplatePath(templateName)
 
 	if (!templatePath) {
@@ -46,7 +53,7 @@ export default async function promptQuestions() {
 	}
 
 	const targetPath = path.join(process.cwd(), projectName)
-	const shellAnswers = await inquirer.prompt(shellQuestions(args))
+	const shellAnswers = await inquirer.prompt(shellQuestions(args.argv as Args))
 
 	const options: CliOptions = {
 		projectName,
@@ -54,8 +61,11 @@ export default async function promptQuestions() {
 		templatePath,
 		targetPath,
 		useTypescript,
-		runInstall: shellAnswers.runInstall || !!args.install,
-		runGitInit: shellAnswers.git || !!args.git,
+		runInstall:
+			getArgument({ type: 'boolean', keys: ['install'] }) ||
+			shellAnswers.runInstall,
+		runGitInit:
+			getArgument({ type: 'boolean', keys: ['git'] }) || shellAnswers.git,
 	}
 
 	if (!createProject(targetPath)) return

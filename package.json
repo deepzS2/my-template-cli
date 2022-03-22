@@ -1,6 +1,6 @@
 {
   "name": "deepz-template-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -10,10 +10,9 @@
   "keywords": [
     "dpzt",
     "deepz-template-cli",
-    "create-project" 
+    "create-project"
   ],
   "bin": {
-    "@deepzS2/dpzt": "dist/index.js",
     "dpzt": "dist/index.js",
     "deepz-template-cli": "dist/index.js",
     "create-project": "dist/index.js"
@@ -23,7 +22,7 @@
   },
   "scripts": {
     "build": "yarn lint && tsc && shx rm -rf dist/templates && shx cp -r src/templates dist",
-    "lint": "eslint --fix --ext .ts ."
+    "lint": "eslint --config .eslintrc.json --fix --ext .ts ."
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
@@ -34,7 +33,7 @@
     "@types/yargs": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
-    "eslint": "^8.7.0",
+    "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
