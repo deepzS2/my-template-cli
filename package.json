@@ -21,7 +21,9 @@
     "deepz-template-cli": "dist/index.js",
     "create-project": "dist/index.js"
   },
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -29,15 +31,16 @@
     "build": "yarn lint && tsc && shx rm -rf dist/templates && shx cp -r src/templates dist",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint --config .eslintrc.json --fix --ext .ts .",
-    "prepare" : "yarn build",
-    "prepublishOnly" : "yarn test && yarn lint",
-    "preversion" : "yarn lint",
-    "version" : "yarn format && git add -A src"
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn test && yarn lint",
+    "preversion": "yarn lint",
+    "version": "yarn format && git add -A src"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
     "@types/ejs": "^3.1.0",
     "@types/inquirer": "^8.2.0",
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.13",
     "@types/shelljs": "^0.8.11",
     "@types/yargs": "^17.0.8",
@@ -46,6 +49,7 @@
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.5.1",
     "prettier": "^2.5.1",
     "shx": "^0.3.4",
     "ts-node": "^7.0.1",
