@@ -4,3 +4,5 @@ tsconfig.json
 .prettierignore
 .eslintignore
 .prettierrc
+__tests__
+jest.config.js
