@@ -1,6 +1,7 @@
 {
-  "name": "deepz-template-cli",
-  "version": "1.0.1",
+  "name": "detc",
+  "version": "1.0.2",
+  "description": "detc (DEepz Template Cli) é um gerador de templates criado para falicitar criação de novos projetos e estudar sobre CLI no NodeJS com Typescript!",
   "main": "dist/index.js",
   "license": "MIT",
   "homepage": "https://github.com/deepzS2/my-template-cli#readme",
@@ -12,14 +13,12 @@
     "url": "https://github.com/deepzS2/my-template-cli"
   },
   "keywords": [
-    "dpzt",
-    "deepz-template-cli",
-    "create-project"
+    "detc",
+    "deepz-template-cli"
   ],
   "bin": {
-    "dpzt": "dist/index.js",
-    "deepz-template-cli": "dist/index.js",
-    "create-project": "dist/index.js"
+    "detc": "dist/index.js",
+    "deepz-template-cli": "dist/index.js"
   },
   "files": [
     "dist/**/*"

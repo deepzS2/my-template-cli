@@ -5,7 +5,7 @@ import { GetArgumentArgs, TypeArgument } from './@types/global'
 import ErrorCLI from './utils/error'
 
 const args = yargs(process.argv.slice(2))
-	.usage('Usage: dpzt [projectName] [options]')
+	.usage('Usage: $0 [projectName] [options]')
 	.options({
 		template: {
 			type: 'string',
