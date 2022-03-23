@@ -5,7 +5,7 @@ import { GetArgumentArgs, TypeArgument } from './@types/global'
 import ErrorCLI from './utils/error'
 
 const args = yargs(process.argv.slice(2))
-	.usage('Usage: $0 [projectName] [options]')
+	.usage('Usage: detc [projectName] [options]')
 	.options({
 		template: {
 			type: 'string',
@@ -28,8 +28,12 @@ const args = yargs(process.argv.slice(2))
 		},
 	})
 	.example(
-		'$0 novoProjeto --ts --git --template next',
+		'detc novoProjeto --ts --git --template next',
 		"Gera um projeto Next, utilizando Typescript, com inicialização do Git e com nome 'novoProjeto'"
+	)
+	.example(
+		'detc',
+		'Gera um novo projeto com base nas respostas das perguntas que serão feitas'
 	)
 	.help('help', 'Comando de ajuda', true)
 

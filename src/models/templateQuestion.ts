@@ -12,6 +12,7 @@ const question = (
 	args: Args,
 	templates: Templates
 ): inquirer.QuestionCollection<Answers> => {
+	const argument = getArgument({ key: 'template', type: 'string' })
 	const templatesAvailable = templates.getAllTemplatesFromPath()
 
 	return {
@@ -19,7 +20,7 @@ const question = (
 		type: 'list',
 		message: 'Qual template você gostaria de utilizar?',
 		choices: templatesAvailable.map((choice) => choice.name),
-		when: () => !!getArgument({ key: 'template', type: 'string' }),
+		when: () => !argument && typeof argument !== 'string' && argument !== '',
 	}
 }
 

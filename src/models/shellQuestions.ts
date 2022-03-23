@@ -14,14 +14,14 @@ const questions = (args: Args): inquirer.QuestionCollection<Answers> => [
 		type: 'confirm',
 		message: 'Gostaria de inicializar um repositório git?',
 		default: false,
-		when: () => getArgument({ type: 'boolean', key: 'git' }),
+		when: () => getArgument({ type: 'boolean', key: 'git' }) === undefined,
 	},
 	{
 		name: 'runInstall',
 		type: 'confirm',
 		message: 'Gostaria de instalar as dependências automaticamente',
 		default: true,
-		when: () => getArgument({ key: 'install', type: 'boolean' }),
+		when: () => getArgument({ key: 'install', type: 'boolean' }) === undefined,
 	},
 ]
 
