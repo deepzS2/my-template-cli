@@ -18,7 +18,7 @@ export default function postProcess(options: CliOptions) {
 
 		if (options.runGitInit) execute('git init', 'Você não tem git instalado!')
 	} catch (error) {
-		console.log((error as Error)?.message)
+		console.error((error as Error)?.message)
 		return process.exit(1)
 	}
 

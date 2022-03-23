@@ -5,7 +5,9 @@ export default function createProject(projectPath: string) {
 	if (fs.existsSync(projectPath)) {
 		console.log(
 			chalk.red.bold(
-				`A pasta ${projectPath} já existe. Delete-a ou use outro nome para o projeto.`
+				`A pasta ${chalk.bold.yellow(
+					projectPath
+				)} já existe. Delete-a ou use outro nome para o projeto.`
 			)
 		)
 		return false

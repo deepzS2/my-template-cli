@@ -1,6 +1,8 @@
 import * as inquirer from 'inquirer'
+
 import { Args } from '../@types/global'
-import Templates from '../templates'
+import { getArgument } from '../args'
+import Templates from '../utils/templates'
 
 interface Answers {
 	template: string
@@ -17,8 +19,7 @@ const question = (
 		type: 'list',
 		message: 'Qual template você gostaria de utilizar?',
 		choices: templatesAvailable.map((choice) => choice.name),
-		when: () =>
-			typeof args['template'] !== 'string' && typeof args['t'] !== 'string',
+		when: () => !!getArgument({ key: 'template', type: 'string' }),
 	}
 }
 

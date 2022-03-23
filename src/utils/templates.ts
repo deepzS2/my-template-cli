@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { ITemplate } from './@types/global'
+
+import { ITemplate } from '../@types/global'
 
 const REGEX_SPACE = /\s/g
 

@@ -1,26 +1,31 @@
-import chalk = require('chalk')
+import * as chalk from 'chalk'
 import * as yargs from 'yargs'
-import { Args, GetArgumentArgs, TypeArgument, YargvType } from './@types/global'
 
-const args = (yargs as YargvType)
+import { GetArgumentArgs, TypeArgument } from './@types/global'
+import ErrorCLI from './utils/error'
+
+const args = yargs(process.argv.slice(2))
 	.usage('Usage: dpzt [projectName] [options]')
-	.option('template', {
-		type: 'string',
-		alias: 't',
-		description: 'Nome do template que será utilizado',
-	})
-	.option('typescript', {
-		type: 'boolean',
-		alias: 'ts',
-		description: 'O projeto irá utilizar typescript',
-	})
-	.option('git', {
-		type: 'boolean',
-	})
-	.option('install', {
-		type: 'boolean',
-		alias: 'i',
-		description: 'Instala as dependências do projeto',
+	.options({
+		template: {
+			type: 'string',
+			alias: 't',
+			description: 'Nome do template que será utilizado',
+		},
+		typescript: {
+			type: 'boolean',
+			alias: 'ts',
+			description: 'O projeto irá utilizar typescript',
+		},
+		git: {
+			type: 'boolean',
+			description: 'Inicializa o git',
+		},
+		install: {
+			type: 'boolean',
+			alias: 'i',
+			description: 'Instala as dependências do projeto',
+		},
 	})
 	.example(
 		'$0 novoProjeto --ts --git --template next',
@@ -28,38 +33,26 @@ const args = (yargs as YargvType)
 	)
 	.help('help', 'Comando de ajuda', true)
 
-export const availableArgs: Array<keyof Args> = [
-	'ts',
-	'template',
-	't',
-	'typescript',
-	'install',
-	'git',
-]
+export const argumentsParsed = args.parseSync()
+
+const isArgumentAvailable = (key: string) =>
+	Object.keys(argumentsParsed).includes(key)
 
 export const getArgument = <T extends 'string' | 'boolean'>({
-	keys,
+	key,
 	type,
-}: GetArgumentArgs<T>): TypeArgument<T> => {
-	if (!keys) return undefined
+}: GetArgumentArgs<T, typeof argumentsParsed>): TypeArgument<T> => {
+	if (!key && args.argv instanceof Promise) return undefined
 
-	if (!keys.every((key) => availableArgs.includes(key))) {
-		console.error(
-			chalk.red.bold(
-				`Argument ${keys.join(' or ')} do not exists in available args array!`
-			)
+	if (isArgumentAvailable(typeof key === 'number' ? key.toString() : key)) {
+		throw new ErrorCLI(
+			`Argumento '${key}' não existe nos argumentos disponíveis! Tente adicioná-lo ao yargs no arquivo ${chalk.bold.green(
+				'args.ts'
+			)}!`
 		)
-
-		return undefined
 	}
 
-	const argument = keys.reduce<TypeArgument<T> | undefined>(
-		(prev, current) =>
-			prev !== undefined || args.argv[current] !== undefined
-				? args.argv[current]
-				: undefined,
-		undefined
-	)
+	const argument = args.argv[key]
 
 	if (argument === undefined || typeof argument !== type) return undefined
 

@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
+
 import { render } from './utils/ejsTemplate'
 
 const SKIP_FILES = ['node_modules', '.template.json']
@@ -8,6 +9,7 @@ const SKIP_EXTENSION_CHECK = [
 	'config',
 	'json',
 	'eslintrc',
+	'prettierrc',
 	'env',
 	'local',
 	'ts',

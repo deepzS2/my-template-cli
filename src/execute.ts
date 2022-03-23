@@ -1,22 +1,31 @@
+import * as chalk from 'chalk'
 import * as inquirer from 'inquirer'
 import * as path from 'path'
 
-import { initialQuestion, shellQuestions, templateQuestion } from './models'
 import { Args, CliOptions } from './@types/global'
-
 import args, { getArgumentIndex, getArgument } from './args'
 import createProject from './createProject'
 import createDirectoryContents from './createDirectoryContents'
-import postProcess from './utils/postProcess'
-import Templates from './templates'
+import {
+	initialQuestion,
+	shellQuestions,
+	templateQuestion,
+	nextTemplateQuestions,
+} from './models'
 import ErrorCLI from './utils/error'
-import nextTemplateQuestions from './models/templates/nextTemplateQuestions'
 import parseTemplateOptions from './utils/parseTemplateOptions'
+import postProcess from './utils/postProcess'
+import Templates from './utils/templates'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 
-export default async function promptQuestions() {
-	const argv = args.argv as Args
+export default async function execute() {
+	const { argv } = args
+
+	if (argv instanceof Promise)
+		throw new ErrorCLI(
+			'yargs.argv do tipo ' + chalk.bold.red('Promise') + '...'
+		)
 
 	if (argv.help) {
 		args.showHelp()
@@ -24,7 +33,10 @@ export default async function promptQuestions() {
 	}
 
 	const nameArg = getArgumentIndex(0) as string
-	const templateArg = getArgument({ type: 'string', keys: ['template', 't'] })
+	const templateArg = getArgument({
+		type: 'string',
+		key: 'template',
+	})
 
 	if (!REGEX_NAME.test(nameArg)) {
 		throw new ErrorCLI(
@@ -38,7 +50,7 @@ export default async function promptQuestions() {
 
 	const projectName = initialAnswers.name || nameArg
 	const useTypescript =
-		getArgument({ type: 'boolean', keys: ['ts'] }) || initialAnswers.ts
+		getArgument({ type: 'boolean', key: 'typescript' }) || initialAnswers.ts
 
 	const templates = new Templates(useTypescript)
 
@@ -62,10 +74,10 @@ export default async function promptQuestions() {
 		targetPath,
 		useTypescript,
 		runInstall:
-			getArgument({ type: 'boolean', keys: ['install'] }) ||
+			getArgument({ type: 'boolean', key: 'install' }) ||
 			shellAnswers.runInstall,
 		runGitInit:
-			getArgument({ type: 'boolean', keys: ['git'] }) || shellAnswers.git,
+			getArgument({ type: 'boolean', key: 'git' }) || shellAnswers.git,
 	}
 
 	if (!createProject(targetPath)) return

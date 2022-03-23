@@ -1,4 +1,4 @@
-import yargs = require('yargs')
+import * as yargs from 'yargs'
 
 export interface CliOptions {
 	projectName: string
@@ -51,9 +51,9 @@ interface IQuestions {
 	runInstall: boolean
 }
 
-interface GetArgumentArgs<T> {
+interface GetArgumentArgs<T, K> {
 	type: T
-	keys: Array<keyof Args>
+	key: keyof K
 }
 
 type TypeArgument<T extends 'string' | 'boolean'> = T extends 'string'
