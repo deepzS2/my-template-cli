@@ -63,7 +63,7 @@ export default function createDirectoryContents<
 			let contents = fs.readFileSync(origFilePath, 'utf8')
 			contents = render(contents, { projectName, ...templateOptionsParsed })
 
-			if (filename === '.npmignore') filename = '.gitignore'
+			if (filename === '.ignore') filename = '.gitignore'
 
 			const writePath = path.join(process.cwd(), projectName, filename)
 			fs.writeFileSync(writePath, contents, 'utf8')

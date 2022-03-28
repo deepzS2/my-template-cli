@@ -30,7 +30,7 @@
     "build": "yarn lint && tsc && shx rm -rf dist/templates && shx cp -r src/templates dist",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint --config .eslintrc.json --fix --ext .ts src",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "prepare": "yarn build",
     "prepublishOnly": "yarn test && yarn lint",
     "preversion": "yarn lint",
