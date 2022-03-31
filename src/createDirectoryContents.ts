@@ -17,6 +17,7 @@ const SKIP_EXTENSION_CHECK = [
 	'ico',
 	'svg',
 	'png',
+	'ignore',
 ]
 
 export default function createDirectoryContents<
