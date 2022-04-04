@@ -1,25 +1,29 @@
 {
-    "compilerOptions": {
-      "outDir": "dist",
-      "target": "es5",
-      "lib": ["es6", "dom"],
-      "sourceMap": true,
-      "allowJs": false,
-      "moduleResolution": "node",
-      "rootDir": "src",
-      "forceConsistentCasingInFileNames": true,
-      "noImplicitReturns": true,
-      "noImplicitThis": true,
-      "noImplicitAny": true,
-      "strictNullChecks": true,
-      "suppressImplicitAnyIndexErrors": true,
-      "noUnusedLocals": true
-    },
-    "exclude": [
-      "**/*.test.ts",
-      "node_modules",
-      "dist",
-      "src/templates"
-    ]
-  }
-  
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "sourceMap": true,
+    "allowJs": false,
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "**/*.test.ts",
+    "node_modules",
+    "dist",
+    "src/templates",
+    "src/__tests__"
+  ]
+}

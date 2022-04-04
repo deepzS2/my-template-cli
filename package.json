@@ -30,7 +30,7 @@
     "build": "yarn lint && tsc && shx rm -rf dist/templates && shx cp -r src/templates dist",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint --config .eslintrc.json --fix --ext .ts src",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "prepare": "yarn build",
     "prepublishOnly": "yarn test && yarn lint",
     "preversion": "yarn lint",
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
+    "@types/concat-stream": "^2.0.0",
     "@types/ejs": "^3.1.0",
     "@types/inquirer": "^8.2.0",
     "@types/jest": "^27.4.1",
@@ -46,6 +47,7 @@
     "@types/yargs": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
+    "babel-jest": "^27.5.1",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -57,7 +59,9 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.16.11",
     "chalk": "4.1.2",
+    "concat-stream": "^2.0.0",
     "ejs": "^3.1.6",
     "inquirer": "^8.2.0",
     "shelljs": "^0.8.5",

@@ -2,3 +2,4 @@ node_modules
 src/templates
 dist/templates
 jest.config.js
+__tests__

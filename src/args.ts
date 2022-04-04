@@ -1,4 +1,4 @@
-import * as yargs from 'yargs'
+import yargs from 'yargs'
 import { Args } from './@types/global'
 
 const args = yargs(process.argv.slice(2))
