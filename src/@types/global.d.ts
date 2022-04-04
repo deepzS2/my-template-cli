@@ -1,5 +1,3 @@
-import * as yargs from 'yargs'
-
 export interface CliOptions {
 	projectName: string
 	templateName: string
@@ -10,22 +8,12 @@ export interface CliOptions {
 	runGitInit: boolean
 }
 
-export interface Args extends ArgsGeneric {
-	template: string
+export interface Args {
+	template: string | undefined
 	typescript: boolean | undefined
-	install: boolean | undefined
 	git: boolean | undefined
-	help: boolean | undefined
-	h: boolean | undefined
+	install: boolean | undefined
 }
-
-interface ArgsGeneric {
-	[x: string]: unknown
-	$0: string
-	_: Array<string | number>
-}
-
-export type YargvType = yargs.Argv<Args>
 
 export interface ITemplate {
 	name: string
@@ -50,12 +38,3 @@ interface IQuestions {
 	template: string
 	runInstall: boolean
 }
-
-interface GetArgumentArgs<T, K> {
-	type: T
-	key: keyof K
-}
-
-type TypeArgument<T extends 'string' | 'boolean'> = T extends 'string'
-	? string | undefined
-	: boolean | undefined

@@ -1,6 +1,5 @@
 import * as inquirer from 'inquirer'
 
-import { Args } from '../@types/global'
 import { getArgument } from '../args'
 
 interface Answers {
@@ -8,20 +7,20 @@ interface Answers {
 	runInstall: boolean
 }
 
-const questions = (args: Args): inquirer.QuestionCollection<Answers> => [
+const questions: inquirer.QuestionCollection<Answers> = [
 	{
 		name: 'git',
 		type: 'confirm',
 		message: 'Gostaria de inicializar um repositório git?',
 		default: false,
-		when: () => getArgument({ type: 'boolean', key: 'git' }) === undefined,
+		when: () => getArgument<boolean>('git') === undefined,
 	},
 	{
 		name: 'runInstall',
 		type: 'confirm',
 		message: 'Gostaria de instalar as dependências automaticamente',
 		default: true,
-		when: () => getArgument({ key: 'install', type: 'boolean' }) === undefined,
+		when: () => getArgument<boolean>('install') === undefined,
 	},
 ]
 

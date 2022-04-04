@@ -1,6 +1,5 @@
 import * as inquirer from 'inquirer'
 
-import { Args } from '../@types/global'
 import { getArgument } from '../args'
 import Templates from '../utils/templates'
 
@@ -9,10 +8,9 @@ interface Answers {
 }
 
 const question = (
-	args: Args,
 	templates: Templates
 ): inquirer.QuestionCollection<Answers> => {
-	const argument = getArgument({ key: 'template', type: 'string' })
+	const argument = getArgument<string>('template')
 	const templatesAvailable = templates.getAllTemplatesFromPath()
 
 	return {
@@ -20,7 +18,7 @@ const question = (
 		type: 'list',
 		message: 'Qual template você gostaria de utilizar?',
 		choices: templatesAvailable.map((choice) => choice.name),
-		when: () => !argument && typeof argument !== 'string' && argument !== '',
+		when: () => !argument && argument !== '',
 	}
 }
 

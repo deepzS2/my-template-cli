@@ -22,6 +22,14 @@ export default function postProcess(options: CliOptions) {
 		return process.exit(1)
 	}
 
+	console.log(
+		`Projeto ${
+			options.projectName
+		} criado! Utilize os seguintes comandos para começar:\n\n${chalk.italic.gray(
+			`cd ${options.projectName}`
+		)}\n${chalk.italic.gray(`yarn dev`)}`
+	)
+
 	return true
 }
 

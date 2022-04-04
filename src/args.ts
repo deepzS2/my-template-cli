@@ -1,11 +1,9 @@
-import * as chalk from 'chalk'
 import * as yargs from 'yargs'
-
-import { GetArgumentArgs, TypeArgument } from './@types/global'
-import ErrorCLI from './utils/error'
+import { Args } from './@types/global'
 
 const args = yargs(process.argv.slice(2))
-	.usage('Usage: detc [projectName] [options]')
+	.scriptName('detc')
+	.usage('Usage: $0 [projectName] [options]')
 	.options({
 		template: {
 			type: 'string',
@@ -19,6 +17,7 @@ const args = yargs(process.argv.slice(2))
 		},
 		git: {
 			type: 'boolean',
+			alias: 'g',
 			description: 'Inicializa o git',
 		},
 		install: {
@@ -28,39 +27,26 @@ const args = yargs(process.argv.slice(2))
 		},
 	})
 	.example(
-		'detc novoProjeto --ts --git --template next',
+		'$0 novoProjeto --ts --git --template next',
 		"Gera um projeto Next, utilizando Typescript, com inicialização do Git e com nome 'novoProjeto'"
 	)
 	.example(
-		'detc',
+		'$0',
 		'Gera um novo projeto com base nas respostas das perguntas que serão feitas'
 	)
 	.help('help', 'Comando de ajuda', true)
+	.alias('help', 'h')
 
-export const argumentsParsed = args.parseSync()
-
-const isArgumentAvailable = (key: string) =>
-	Object.keys(argumentsParsed).includes(key)
-
-export const getArgument = <T extends 'string' | 'boolean'>({
-	key,
-	type,
-}: GetArgumentArgs<T, typeof argumentsParsed>): TypeArgument<T> => {
+export const getArgument = <T extends string | boolean>(key: keyof Args) => {
 	if (!key && args.argv instanceof Promise) return undefined
-
-	if (isArgumentAvailable(typeof key === 'number' ? key.toString() : key)) {
-		throw new ErrorCLI(
-			`Argumento '${key}' não existe nos argumentos disponíveis! Tente adicioná-lo ao yargs no arquivo ${chalk.bold.green(
-				'args.ts'
-			)}!`
-		)
-	}
 
 	const argument = args.argv[key]
 
-	if (argument === undefined || typeof argument !== type) return undefined
+	if (argument !== undefined) {
+		return argument as T
+	}
 
-	return argument as TypeArgument<T>
+	return undefined
 }
 
 export const getArgumentIndex = (index: number): string | number =>

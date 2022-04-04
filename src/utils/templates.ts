@@ -33,8 +33,6 @@ export default class Templates {
 	}
 
 	public getTemplatePath(name: string): string | void {
-		console.dir(name)
-
 		const foundTemplate = this.templatesAvailable.find(
 			(template) =>
 				template.name.toLowerCase().replace(REGEX_SPACE, '') ===
