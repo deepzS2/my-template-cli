@@ -83,7 +83,7 @@ export default async function execute() {
 		runGitInit: passedArgs.git || shellAnswers.git,
 	}
 
-	if (!createProject(targetPath)) return
+	createProject(targetPath)
 
 	// Sub questions per template
 	if (options.templateName.toLowerCase() === 'next') {
@@ -92,7 +92,6 @@ export default async function execute() {
 		createDirectoryContents(
 			templatePath,
 			projectName,
-			templateOptions,
 			parseTemplateOptions('next', templateOptions)
 		)
 	} else {

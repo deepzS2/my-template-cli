@@ -1,33 +1,20 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import filenameCheck from './filenameCheck'
 
 import { render } from './utils/ejsTemplate'
 
 const SKIP_FILES = ['node_modules', '.template.json']
-const SKIP_EXTENSION_CHECK = [
-	'd',
-	'config',
-	'json',
-	'eslintrc',
-	'prettierrc',
-	'env',
-	'local',
-	'ts',
-	'tsx',
-	'ico',
-	'svg',
-	'png',
-	'ignore',
-]
 
+/**
+ * Create the template files with template options
+ * @param templatePath Path to the template
+ * @param projectName Project name
+ * @param templateOptionsParsed Template options parsed as Record<string, boolean>
+ */
 export default function createDirectoryContents<
 	T extends Record<string, boolean>
->(
-	templatePath: string,
-	projectName: string,
-	templateOptions?: string[],
-	templateOptionsParsed?: T
-) {
+>(templatePath: string, projectName: string, templateOptionsParsed?: T) {
 	const filesToCreate = fs.readdirSync(templatePath)
 
 	filesToCreate.forEach((file) => {
@@ -36,28 +23,14 @@ export default function createDirectoryContents<
 
 		if (SKIP_FILES.indexOf(file) > -1) return
 
-		const fileNameSplitted = file.split('.')
-
-		// nome [0] '.' extensão para usar com template options [1] '.' extensão do arquivo [2]
-		const hasFileExtension =
-			fileNameSplitted.length &&
-			fileNameSplitted.length >= 2 &&
-			fileNameSplitted[1]
+		const useTemplateOption = filenameCheck(file, templateOptionsParsed ?? {})
 
 		let filename = file
 
-		// Verifica se a extensão existe e não esta na lista de extensões permitidas
-		if (
-			hasFileExtension &&
-			!SKIP_EXTENSION_CHECK.includes(fileNameSplitted[1])
-		) {
-			const checkForTemplateOption = templateOptions?.find(
-				(value) => value === fileNameSplitted[1]
-			)
-
-			if (!checkForTemplateOption) return
-
-			filename = filename.replace('.' + checkForTemplateOption + '.', '')
+		// Verifica se o nome do arquivo possui o "[]" e se está na lista de opções do template
+		if (useTemplateOption !== undefined) {
+			if (useTemplateOption) filename = file.replace(/\[.+]/gm, '')
+			else return
 		}
 
 		if (stats.isFile()) {
@@ -70,10 +43,10 @@ export default function createDirectoryContents<
 			fs.writeFileSync(writePath, contents, 'utf8')
 		} else if (stats.isDirectory()) {
 			fs.mkdirSync(path.join(process.cwd(), projectName, filename))
+
 			createDirectoryContents(
 				path.join(templatePath, file),
 				path.join(projectName, filename),
-				templateOptions,
 				templateOptionsParsed
 			)
 		}
