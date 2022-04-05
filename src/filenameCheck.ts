@@ -18,9 +18,6 @@ export default function (
 	)
 	const templateOptionsKeys = Object.keys(templateOptions)
 
-	console.log(bracketsString)
-	console.log(templateOptions)
-
 	if (templateOptionsKeys.includes(bracketsString)) {
 		return templateOptions[bracketsString]
 	} else {
