@@ -1,9 +1,7 @@
-import * as chalk from 'chalk'
 import * as inquirer from 'inquirer'
 import * as path from 'path'
 
-import { CliOptions } from './@types/global'
-import args, { getArgumentIndex, getArgument } from './args'
+import { CliOptions, YargsType } from './@types/global'
 import createProject from './createProject'
 import createDirectoryContents from './createDirectoryContents'
 import {
@@ -19,51 +17,47 @@ import Templates from './utils/templates'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 
-export default async function execute() {
-	const { argv } = args
+export default async function execute(yargs: YargsType) {
+	const argv = await yargs.argv
 
-	// Why async?
-	if (argv instanceof Promise)
-		throw new ErrorCLI(
-			'yargs.argv do tipo ' + chalk.bold.red('Promise') + '...'
-		)
+	// Args passed from command line
+	// projectName is not a option but instead a positional argument
+	// Check yargs.usage documentation
+	const passedArgs = {
+		name: argv.projectName as string,
+		template: argv.template,
+		language: argv.language,
+		install: argv.install,
+		git: argv.git,
+	}
 
 	// Help message
 	if (argv.help) {
-		args.showHelp()
+		yargs.showHelp()
 		process.exit()
 	}
 
-	// Args passed from command line
-	const passedArgs = {
-		name: getArgumentIndex(0) as string,
-		template: getArgument<string>('template'),
-		typescript: getArgument<boolean>('typescript'),
-		install: getArgument<boolean>('install'),
-		git: getArgument<boolean>('git'),
-	}
-
 	// If name arg exist make a regex test
-	if (!REGEX_NAME.test(passedArgs.name)) {
+	if (!!passedArgs && !REGEX_NAME.test(passedArgs.name)) {
 		throw new ErrorCLI(
 			'Você deve apenas utilizar caracteres, números, underscores ou traços para nome'
 		)
 	}
 
-	const initialAnswers = await inquirer.prompt(initialQuestion)
+	const initialAnswers = await inquirer.prompt(initialQuestion(argv))
 
-	const projectName = passedArgs.name || initialAnswers.name
-	const useTypescript = passedArgs.typescript || initialAnswers.ts
+	const projectName = passedArgs.name ?? initialAnswers.name
+	const language = passedArgs.language ?? initialAnswers.language.toLowerCase()
 
 	// Util template class
-	const templates = new Templates(useTypescript)
+	const templates = new Templates(language)
 
 	const { template: questionTemplateName } = await inquirer.prompt(
-		templateQuestion(templates)
+		templateQuestion(argv, templates)
 	)
 
 	// Template information
-	const templateName = passedArgs.template || questionTemplateName
+	const templateName = passedArgs.template ?? questionTemplateName
 	const templatePath = templates.getTemplatePath(templateName)
 
 	if (!templatePath) {
@@ -71,14 +65,14 @@ export default async function execute() {
 	}
 
 	const targetPath = path.join(process.cwd(), projectName)
-	const shellAnswers = await inquirer.prompt(shellQuestions)
+	const shellAnswers = await inquirer.prompt(shellQuestions(argv))
 
 	const options: CliOptions = {
 		projectName,
 		templateName,
 		templatePath,
 		targetPath,
-		useTypescript,
+		language,
 		runInstall: passedArgs.install || shellAnswers.runInstall,
 		runGitInit: passedArgs.git || shellAnswers.git,
 	}

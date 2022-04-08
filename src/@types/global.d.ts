@@ -1,19 +1,25 @@
+import { constructYargs } from '../args'
+
 export interface CliOptions {
 	projectName: string
 	templateName: string
 	templatePath: string
 	targetPath: string
-	useTypescript: boolean
+	language: string
 	runInstall: boolean
 	runGitInit: boolean
 }
 
 export interface Args {
 	template: string | undefined
+	language: 'TypeScript' | 'JavaScript' | 'C#'
 	typescript: boolean | undefined
 	git: boolean | undefined
 	install: boolean | undefined
 }
+
+export type YargsType = ReturnType<typeof constructYargs>
+export type ArgumentsType = Awaited<YargsType['argv']>
 
 export interface ITemplate {
 	name: string

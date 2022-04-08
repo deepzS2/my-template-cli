@@ -2,19 +2,20 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 import { ITemplate } from '../@types/global'
+import ErrorCLI from './error'
 
 const REGEX_SPACE = /\s/g
 
 export default class Templates {
-	private templatesAvailable: ITemplate[]
+	private templatesAvailable!: ITemplate[]
 	private templatesLanguagePath: string
 
-	constructor(useTypescript: boolean) {
+	constructor(language: string) {
 		this.templatesLanguagePath = path.join(
 			__dirname,
 			'..',
 			'templates',
-			useTypescript ? 'typescript' : 'javascript'
+			language
 		)
 	}
 
@@ -28,6 +29,12 @@ export default class Templates {
 				return stats.isDirectory()
 			})
 			.map((file) => ({ name: file.replace('-', ' '), dir: file }))
+
+		if (this.templatesAvailable.length === 0) {
+			throw new ErrorCLI(
+				`A linguagem selecionada, por enquanto, não possui templates disponíveis!`
+			)
+		}
 
 		return this.templatesAvailable
 	}
