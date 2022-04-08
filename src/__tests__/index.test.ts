@@ -1,4 +1,3 @@
-import inquirer from 'inquirer'
 import fs from 'fs'
 import { EOL } from 'os'
 
