@@ -31,8 +31,8 @@ Options:
 ## TODOs
 - [x] Mais conteúdo no README
 - [ ] Mais templates
-- [ ] Sub perguntas para cada template
-- [ ] Mudar extensão de arquivos para usar com sub perguntas de templates
+- [x] Sub perguntas para cada template
+- [x] Mudar nome de arquivos para usar com sub perguntas de templates
 - [ ] I18n?
 - [ ] Gerar componentes? (`dpzt generate`)
 - [ ] Gerar configuração de database? (`dpzt database`)
