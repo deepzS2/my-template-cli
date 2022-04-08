@@ -97,6 +97,18 @@ export default function (
       reject(err)
     })
 
+    childProcess.on('exit', (code) => {
+      if (killIOTimeout) clearTimeout(killIOTimeout)
+
+      if (currentInputTimeout) {
+        clearTimeout(currentInputTimeout)
+        opts.inputs = []
+      }
+
+      childProcess.kill(constants.signals.SIGTERM)
+      reject(code)
+    })
+
     opts.inputs && loop(opts.inputs)
 
     childProcess.stdout.pipe(

@@ -1,4 +1,4 @@
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 
 export default class ErrorCLI extends Error {
 	constructor(message: string) {
@@ -6,6 +6,6 @@ export default class ErrorCLI extends Error {
 
 		console.log(`${chalk.bold.red('ERROR')} ${message}`)
 
-		process.exit(1)
+		process.env.NODE_ENV !== 'test' && process.exit(1)
 	}
 }

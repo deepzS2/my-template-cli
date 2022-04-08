@@ -21,5 +21,6 @@ module.exports = {
   testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
   testTimeout: 7500,
   verbose: true,
-  detectOpenHandles: true
+  detectOpenHandles: true,
+  silent: true
 }

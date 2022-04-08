@@ -15,8 +15,8 @@ describe('Criação da pasta do projeto', () => {
       fs.mkdirSync('teste')
 
       createProject('teste')
-
-      fs.rmdirSync('teste')
     }).toThrowError()
+
+    fs.rmdirSync('teste')
   })
 })
