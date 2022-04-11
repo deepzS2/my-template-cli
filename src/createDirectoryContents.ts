@@ -12,9 +12,11 @@ const SKIP_FILES = ['node_modules', '.template.json']
  * @param projectName Project name
  * @param templateOptionsParsed Template options parsed as Record<string, boolean>
  */
-export default function createDirectoryContents<
-	T extends Record<string, boolean>
->(templatePath: string, projectName: string, templateOptionsParsed?: T) {
+export default function createDirectoryContents(
+	templatePath: string,
+	projectName: string,
+	templateOptionsParsed?: Record<string, boolean>
+) {
 	const filesToCreate = fs.readdirSync(templatePath)
 
 	filesToCreate.forEach((file) => {

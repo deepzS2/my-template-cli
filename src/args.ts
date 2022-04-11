@@ -1,7 +1,7 @@
 import yargs from 'yargs/yargs'
 
 /**
- * Contruct yarg
+ * Construct yarg object
  * @param argv process.argv.slice(2)
  * @returns yargs object
  */

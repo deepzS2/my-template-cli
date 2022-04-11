@@ -17,6 +17,10 @@ import Templates from './utils/templates'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 
+/**
+ * Default script function
+ * @param yargs Arguments parsed by yargs package
+ */
 export default async function execute(yargs: YargsType) {
 	const argv = await yargs.argv
 
