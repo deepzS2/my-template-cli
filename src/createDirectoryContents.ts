@@ -15,7 +15,8 @@ const SKIP_FILES = ['node_modules', '.template.json']
 export default function createDirectoryContents(
 	templatePath: string,
 	projectName: string,
-	templateOptionsParsed?: Record<string, boolean>
+	templateOptionsParsed?: Record<string, boolean>,
+	projectPath?: string
 ) {
 	const filesToCreate = fs.readdirSync(templatePath)
 
@@ -27,7 +28,7 @@ export default function createDirectoryContents(
 
 		const useTemplateOption = filenameCheck(file, templateOptionsParsed ?? {})
 
-		let filename = file
+		let filename = file.replace(/(projectName)+/gm, projectName)
 
 		// Verifica se o nome do arquivo possui o "[]" e se está na lista de opções do template
 		if (useTemplateOption !== undefined) {
@@ -41,15 +42,22 @@ export default function createDirectoryContents(
 
 			if (filename === '.ignore') filename = '.gitignore'
 
-			const writePath = path.join(process.cwd(), projectName, filename)
+			const writePath = path.join(
+				process.cwd(),
+				projectPath ?? projectName,
+				filename
+			)
 			fs.writeFileSync(writePath, contents, 'utf8')
 		} else if (stats.isDirectory()) {
-			fs.mkdirSync(path.join(process.cwd(), projectName, filename))
+			fs.mkdirSync(
+				path.join(process.cwd(), projectPath ?? projectName, filename)
+			)
 
 			createDirectoryContents(
 				path.join(templatePath, file),
-				path.join(projectName, filename),
-				templateOptionsParsed
+				projectName,
+				templateOptionsParsed,
+				path.join(projectPath ?? projectName, filename)
 			)
 		}
 	})
