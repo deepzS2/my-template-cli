@@ -5,6 +5,10 @@ import shell from 'shelljs'
 
 import { CliOptions } from '../@types/global'
 
+/**
+ * Post processing
+ * @param options Options selected by command line or questions
+ */
 export default function postProcess(options: CliOptions) {
 	const isNode = fs.existsSync(path.join(options.templatePath, 'package.json'))
 
@@ -33,6 +37,11 @@ export default function postProcess(options: CliOptions) {
 	return true
 }
 
+/**
+ * Execute a command with shell
+ * @param command Command string
+ * @param errorMsg Error if code result not equals 0
+ */
 function execute(command: string, errorMsg: string) {
 	const result = shell.exec(command)
 

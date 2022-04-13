@@ -10,6 +10,10 @@ export default class Templates {
 	private templatesAvailable!: ITemplate[]
 	private templatesLanguagePath: string
 
+	/**
+	 * Get the language templates path
+	 * @param language Languages on templates folder
+	 */
 	constructor(language: string) {
 		this.templatesLanguagePath = path.join(
 			__dirname,
@@ -19,6 +23,9 @@ export default class Templates {
 		)
 	}
 
+	/**
+	 * Return all the available templates on path, if 0 throw error
+	 */
 	public getAllTemplatesFromPath(): ITemplate[] {
 		this.templatesAvailable = fs
 			.readdirSync(this.templatesLanguagePath)
@@ -39,6 +46,11 @@ export default class Templates {
 		return this.templatesAvailable
 	}
 
+	/**
+	 * Get a language template
+	 * @param name Folder/template name
+	 * @returns The path to the template folder
+	 */
 	public getTemplatePath(name: string): string | void {
 		const foundTemplate = this.templatesAvailable.find(
 			(template) =>

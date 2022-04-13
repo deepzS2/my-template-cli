@@ -14,9 +14,14 @@ import ErrorCLI from './utils/error'
 import parseTemplateOptions from './utils/parseTemplateOptions'
 import postProcess from './utils/postProcess'
 import Templates from './utils/templates'
+import webapiTemplateQuestions from './models/templates/webapiTemplateQuestions'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 
+/**
+ * Default script function
+ * @param yargs Arguments parsed by yargs package
+ */
 export default async function execute(yargs: YargsType) {
 	const argv = await yargs.argv
 
@@ -88,8 +93,14 @@ export default async function execute(yargs: YargsType) {
 			projectName,
 			parseTemplateOptions('next', templateOptions)
 		)
-	} else {
-		createDirectoryContents(templatePath, projectName)
+	} else if (options.templateName.toLowerCase() === 'webapi') {
+		const { templateOptions } = await inquirer.prompt(webapiTemplateQuestions)
+
+		createDirectoryContents(
+			templatePath,
+			projectName,
+			parseTemplateOptions('webapi', templateOptions)
+		)
 	}
 
 	// Post process

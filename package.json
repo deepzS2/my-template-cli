@@ -1,6 +1,6 @@
 {
   "name": "detc",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "detc (deepz template cli) é um gerador de templates criado para falicitar criação de novos projetos e estudar sobre CLI no NodeJS com Typescript!",
   "main": "dist/index.js",
   "license": "MIT",
@@ -66,6 +66,7 @@
     "concat-stream": "^2.0.0",
     "ejs": "^3.1.6",
     "inquirer": "^8.2.0",
+    "os-locale": "6.0.0",
     "shelljs": "^0.8.5",
     "yargs": "^17.3.1"
   }
