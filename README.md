@@ -28,7 +28,7 @@ Options:
       --version           Show version number                          [boolean]
   -t, --template          Nome do template que será utilizado           [string]
       --language, --lang  Linguagem que vai ser utilizada
-                                     [choices: "javascript", "typescript", "c#"]
+                                                   [choices: "typescript", "c#"]
   -g, --git               Inicializa o git                             [boolean]
   -i, --install           Instala as dependências do projeto           [boolean]
   -h, --help              Comando de ajuda                             [boolean]

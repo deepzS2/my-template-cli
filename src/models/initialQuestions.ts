@@ -22,7 +22,7 @@ const questions = (
 		name: 'language',
 		type: 'list',
 		message: 'Gostaria de utilizar qual linguagem?',
-		choices: ['C#', 'JavaScript', 'TypeScript'],
+		choices: ['C#', 'TypeScript'],
 		when: () => argv.language === undefined,
 	},
 ]

@@ -15,7 +15,7 @@ export const constructYargs = (argv: string[]) => {
 				description: 'Nome do template que será utilizado',
 			},
 			language: {
-				choices: ['javascript', 'typescript', 'c#'] as const,
+				choices: ['typescript', 'c#'] as const,
 				alias: 'lang',
 				description: 'Linguagem que vai ser utilizada',
 			},

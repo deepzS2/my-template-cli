@@ -30,6 +30,10 @@ export default class Templates {
 		this.templatesAvailable = fs
 			.readdirSync(this.templatesLanguagePath)
 			.filter((file) => {
+				if (file === 'components') {
+					return false
+				}
+
 				const origFilePath = path.join(this.templatesLanguagePath, file)
 				const stats = fs.statSync(origFilePath)
 
@@ -37,7 +41,7 @@ export default class Templates {
 			})
 			.map((file) => ({ name: file.replace('-', ' '), dir: file }))
 
-		if (this.templatesAvailable.length === 0) {
+		if (!this.templatesAvailable.length) {
 			throw new ErrorCLI(
 				`A linguagem selecionada, por enquanto, não possui templates disponíveis!`
 			)
