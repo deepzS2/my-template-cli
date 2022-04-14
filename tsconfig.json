@@ -16,9 +16,29 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noEmit": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "isolatedModules": true,
+    "noUnusedLocals": true,
+    "baseUrl": "src",
+    "paths": {
+      "@commands/*": [
+        "commands/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],
+      "@templates/*": [
+        "templates/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@/*": [
+        "*"
+      ]
+    }
   },
   "exclude": [
     "**/*.test.ts",
