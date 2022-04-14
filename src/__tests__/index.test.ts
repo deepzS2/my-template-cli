@@ -10,7 +10,7 @@ describe('Testando comandos pelo command line', () => {
   })
 
   test('Deve rodar o script de pergunta se o argumento não for passado', async () => {
-    const result = await cli('dist/index.js', [], {
+    const result = await cli('lib/index.js', [], {
       inputs: ['teste', ENTER, DOWN, DOWN, ENTER, DOWN, DOWN, ENTER, 'n', ENTER, 'n', ENTER, ENTER],
       timeout: 500
     })
@@ -19,7 +19,7 @@ describe('Testando comandos pelo command line', () => {
   })
 
   test('Deve não realizar uma pergunta caso seja passada como argumento no command line', async () => {
-    const result = await cli('dist/index.js', ['--language=typescript', '--template=next'], {
+    const result = await cli('lib/index.js', ['--language=typescript', '--template=next'], {
       inputs: ['teste', ENTER, 'y', ENTER, 'n', ENTER, 'n', ENTER, ENTER],
       timeout: 500
     })
@@ -29,7 +29,7 @@ describe('Testando comandos pelo command line', () => {
   })
 
   test('Deve gerar o projeto com os conteúdos do respectivo template dentro', async () => {
-    await cli('dist/index.js', ['--language=typescript', '--template=next'], {
+    await cli('lib/index.js', ['--language=typescript', '--template=next'], {
       inputs: ['teste', ENTER, 'y', ENTER, 'n', ENTER, 'n', ENTER, ENTER],
       timeout: 1000
     })
@@ -40,7 +40,7 @@ describe('Testando comandos pelo command line', () => {
   }, 10000)
 
   test('Deve gerar arquivos opcionais pelas sub-perguntas de template', async () => {
-    await cli('dist/index.js', ['--language=typescript', '--template=next'], {
+    await cli('lib/index.js', ['--language=typescript', '--template=next'], {
       inputs: ['teste', ENTER, 'n', ENTER, 'n', ENTER, DOWN, DOWN, DOWN, SPACE, ENTER],
       timeout: 1000,
       maxTimeout: 20000
@@ -57,7 +57,7 @@ describe('Testando comandos pelo command line', () => {
     // const ERROR_CODE = 1
     // const mockExit = mockProcessExit()
 
-    return expect(cli('dist/index.js', ['--language=next', '--template=next'], {
+    return expect(cli('lib/index.js', ['--language=next', '--template=next'], {
       inputs: ['teste', ENTER, 'n', ENTER, 'n', ENTER, ENTER],
       timeout: 400,
     })).resolves.toMatch("").finally(() => {
@@ -66,7 +66,7 @@ describe('Testando comandos pelo command line', () => {
   })
 
   test('Deve mostrar o comando de ajuda', async () => {
-    const result = await cli('dist/index.js', ['-h'])
+    const result = await cli('lib/index.js', ['-h'])
 
     expect(result.trim().split(EOL)).toBeTruthy()
   })

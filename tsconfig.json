@@ -43,7 +43,7 @@
   "exclude": [
     "**/*.test.ts",
     "node_modules",
-    "dist",
+    "lib",
     "src/templates",
     "src/__tests__"
   ]
