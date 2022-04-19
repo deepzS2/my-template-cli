@@ -1,5 +1,6 @@
 import * as inquirer from 'inquirer'
-import { ArgumentsType } from '../@types/global'
+
+import { ScriptArguments } from '../@types/global'
 
 interface Answers {
 	git: boolean
@@ -7,7 +8,7 @@ interface Answers {
 }
 
 const questions = (
-	argv: ArgumentsType
+	argv: ScriptArguments
 ): inquirer.QuestionCollection<Answers> => [
 	{
 		name: 'git',

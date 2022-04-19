@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import { constructYargs } from './args'
-import execute from './execute'
+import yargsInstance from '@/args'
 
-const yargs = constructYargs(process.argv.slice(2))
-execute(yargs)
+yargsInstance.parseAsync()

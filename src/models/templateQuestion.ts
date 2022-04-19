@@ -1,5 +1,6 @@
 import * as inquirer from 'inquirer'
-import { ArgumentsType } from '../@types/global'
+
+import { ScriptArguments } from '../@types/global'
 
 import Templates from '../utils/templates'
 
@@ -8,7 +9,7 @@ interface Answers {
 }
 
 const question = (
-	argv: ArgumentsType,
+	argv: ScriptArguments,
 	templates: Templates
 ): inquirer.QuestionCollection<Answers> => {
 	const argument = argv.template

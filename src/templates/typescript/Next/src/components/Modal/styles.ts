@@ -1,29 +1,7 @@
-import styled, { keyframes } from 'styled-components'
+import { animated } from 'react-spring'
+import styled from 'styled-components'
 
-const fadeIn = keyframes`
-  0% {
-    /* animation-timing-function: cubic-bezier(0.2242, 0.7499, 0.3142, 0.8148); */
-    opacity: 0;
-    top: -100%;
-  }
-
-  50% {
-    top: 0;
-    opacity: .75;
-  }
-
-  75% {
-    top: 0;
-    opacity: 1;
-  }
-  
-  100% {
-    top: 0;
-    opacity: 1;
-  }
-`
-
-export const Container = styled.div`
+export const Container = styled(animated.div)`
 	position: fixed;
 	overflow: hidden;
 	top: 0;
@@ -38,10 +16,6 @@ export const Container = styled.div`
 	justify-content: center;
 	padding: 1.5em 1em;
 	z-index: 999999;
-
-	animation: ${fadeIn} 1s 1 ease-in-out;
-	animation-fill-mode: forwards;
-	opacity: 0;
 `
 
 export const Overlay = styled.div`

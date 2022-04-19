@@ -1,8 +1,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { ITemplate } from '../@types/global'
-import ErrorCLI from './error'
+import { ITemplate } from '@/@types/global'
+import ErrorCLI from '@utils/error'
 
 const REGEX_SPACE = /\s/g
 
@@ -11,16 +11,11 @@ export default class Templates {
 	private templatesLanguagePath: string
 
 	/**
-	 * Get the language templates path
-	 * @param language Languages on templates folder
+	 * Get templates sub-folders
+	 * @param folder Sub-folders on templates folder
 	 */
-	constructor(language: string) {
-		this.templatesLanguagePath = path.join(
-			__dirname,
-			'..',
-			'templates',
-			language
-		)
+	constructor(folder: string) {
+		this.templatesLanguagePath = path.join(__dirname, '..', 'templates', folder)
 	}
 
 	/**
@@ -37,7 +32,7 @@ export default class Templates {
 			})
 			.map((file) => ({ name: file.replace('-', ' '), dir: file }))
 
-		if (this.templatesAvailable.length === 0) {
+		if (!this.templatesAvailable.length) {
 			throw new ErrorCLI(
 				`A linguagem selecionada, por enquanto, não possui templates disponíveis!`
 			)

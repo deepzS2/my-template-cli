@@ -7,18 +7,23 @@ module.exports = {
   },
   testPathIgnorePatterns: [
     '<rootDir>/src/templates',
-    '<rootDir>/dist/templates',
+    '<rootDir>/lib/templates',
     '<rootDir>/node_modules',
   ],
   modulePathIgnorePatterns: [
     '<rootDir>/src/templates',
-    '<rootDir>/dist/templates',
+    '<rootDir>/lib/templates',
   ],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@utils/(.*)$": "<rootDir>/src/utils/$1",
+    "^@models/(.*)$": "<rootDir>/src/models/$1",
+  },
   coveragePathIgnorePatterns: [
     '<rootDir>/src/templates',
-    '<rootDir>/dist/templates',
+    '<rootDir>/lib/templates',
   ],
-  testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
+  testMatch: ["**/?(*.)+(spec|test).[tj]s?(x)"],
   testTimeout: 7500,
   verbose: true,
   detectOpenHandles: true,

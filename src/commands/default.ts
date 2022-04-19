@@ -1,30 +1,25 @@
-import * as inquirer from 'inquirer'
-import * as path from 'path'
+import inquirer from 'inquirer'
 
-import { CliOptions, YargsType } from './@types/global'
-import createProject from './createProject'
-import createDirectoryContents from './createDirectoryContents'
+import path from 'path'
+
+import { CliOptions, ScriptArguments } from '@/@types/global'
+import createDirectoryContents from '@/createDirectoryContents'
+import createTargetDirectory from '@/createTargetDirectory'
 import {
 	initialQuestion,
+	nextTemplateQuestions,
 	shellQuestions,
 	templateQuestion,
-	nextTemplateQuestions,
-} from './models'
-import ErrorCLI from './utils/error'
-import parseTemplateOptions from './utils/parseTemplateOptions'
-import postProcess from './utils/postProcess'
-import Templates from './utils/templates'
-import webapiTemplateQuestions from './models/templates/webapiTemplateQuestions'
+	webapiTemplateQuestions,
+} from '@models/index'
+import ErrorCLI from '@utils/error'
+import parseTemplateOptions from '@utils/parseTemplateOptions'
+import postProcess from '@utils/postProcess'
+import Templates from '@utils/templates'
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 
-/**
- * Default script function
- * @param yargs Arguments parsed by yargs package
- */
-export default async function execute(yargs: YargsType) {
-	const argv = await yargs.argv
-
+export default async function (argv: ScriptArguments) {
 	// Args passed from command line
 	// projectName is not a option but instead a positional argument
 	// Check yargs.usage documentation
@@ -37,10 +32,10 @@ export default async function execute(yargs: YargsType) {
 	}
 
 	// Help message
-	if (argv.help) {
-		yargs.showHelp()
-		process.exit()
-	}
+	// if (argv.help) {
+	// 	yargs.showHelp()
+	// 	process.exit()
+	// }
 
 	// If name arg exist make a regex test
 	if (!!passedArgs && !REGEX_NAME.test(passedArgs.name)) {
@@ -82,25 +77,27 @@ export default async function execute(yargs: YargsType) {
 		runGitInit: passedArgs.git || shellAnswers.git,
 	}
 
-	createProject(targetPath)
+	createTargetDirectory(targetPath)
 
 	// Sub questions per template
 	if (options.templateName.toLowerCase() === 'next') {
 		const { templateOptions } = await inquirer.prompt(nextTemplateQuestions)
 
-		createDirectoryContents(
+		createDirectoryContents({
+			name: projectName,
+			targetPath,
 			templatePath,
-			projectName,
-			parseTemplateOptions('next', templateOptions)
-		)
+			templateOptionsParsed: parseTemplateOptions('next', templateOptions),
+		})
 	} else if (options.templateName.toLowerCase() === 'webapi') {
 		const { templateOptions } = await inquirer.prompt(webapiTemplateQuestions)
 
-		createDirectoryContents(
+		createDirectoryContents({
+			name: projectName,
 			templatePath,
-			projectName,
-			parseTemplateOptions('webapi', templateOptions)
-		)
+			targetPath,
+			templateOptionsParsed: parseTemplateOptions('webapi', templateOptions),
+		})
 	}
 
 	// Post process
