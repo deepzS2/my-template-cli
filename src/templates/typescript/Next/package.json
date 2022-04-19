@@ -35,6 +35,7 @@
     <% if (useForm) { %>
     "react-hook-form": "^7.27.1",
     <% } %>
+    "react-spring": "^9.4.4",
     "little-state-machine": "^4.2.3",
     <% if (useIcons) { %>
     "react-icons": "^4.3.1",

@@ -3,7 +3,7 @@ import { EOL } from 'os'
 
 import cli, { ENTER, DOWN, SPACE } from './cli'
 
-describe('Testando comandos pelo command line', () => {
+describe('Testando comandos padrão (gerador de projetos) pelo command line', () => {
   afterEach(() => {
     if (fs.existsSync('teste'))
       fs.rmSync('teste', { recursive: true, force: true })

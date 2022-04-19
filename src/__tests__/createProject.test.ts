@@ -1,10 +1,10 @@
-import createProject from '../createProject'
+import createTargetDirectory from '../createTargetDirectory'
 import fs from 'fs'
 
 describe('Criação da pasta do projeto', () => {
   it("Deve criar uma nova pasta se não existir uma com o mesmo nome", () => {
     expect(() => {
-      createProject('teste')
+      createTargetDirectory('teste')
 
       fs.rmdirSync('teste')
     }).not.toThrowError()
@@ -14,7 +14,7 @@ describe('Criação da pasta do projeto', () => {
     expect(() => {
       fs.mkdirSync('teste')
 
-      createProject('teste')
+      createTargetDirectory('teste')
     }).toThrowError()
 
     fs.rmdirSync('teste')

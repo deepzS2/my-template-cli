@@ -41,10 +41,9 @@
     }
   },
   "exclude": [
-    "**/*.test.ts",
+    "src/__tests__",
     "node_modules",
     "lib",
-    "src/templates",
-    "src/__tests__"
+    "src/templates"
   ]
 }

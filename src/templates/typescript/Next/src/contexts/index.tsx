@@ -8,20 +8,24 @@ import ThemeContext from './theme'
 import 'react-toastify/dist/ReactToastify.css'
 
 const ContextsProviders: React.FC = ({ children }) => {
-	return (
-		<>
-			<ToastContainer />
-			<QueryClientProvider>
-<% if (useSteps) { %> 
-				<StateMachineProvider>
-					<ThemeContext>{children}</ThemeContext>
-				</StateMachineProvider>
-<% } else { %>
-					<ThemeContext>{children}</ThemeContext>
+  return (
+    <>
+      <ToastContainer />
+<% if (useQuery) { %>
+      <QueryClientProvider>
 <% } %>
-			</QueryClientProvider>
-		</>
-	)
+<% if (useSteps) { %> 
+        <StateMachineProvider>
+          <ThemeContext>{children}</ThemeContext>
+        </StateMachineProvider>
+<% } else { %>
+			  <ThemeContext>{children}</ThemeContext>
+<% } %>
+<% if (useQuery) { %>
+      </QueryClientProvider>
+<% } %>
+    </>
+  )
 }
 
 export default ContextsProviders

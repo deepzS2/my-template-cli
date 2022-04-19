@@ -1,9 +1,10 @@
 import chalk from 'chalk'
+import { cd, exec } from 'shelljs'
+
 import fs from 'fs'
 import path from 'path'
-import shell from 'shelljs'
 
-import { CliOptions } from '../@types/global'
+import { CliOptions } from '@/@types/global'
 
 /**
  * Post processing
@@ -14,7 +15,7 @@ export default function postProcess(options: CliOptions) {
 
 	if (!isNode) return
 
-	shell.cd(options.targetPath)
+	cd(options.targetPath)
 
 	try {
 		if (isNode && options.runInstall)
@@ -43,7 +44,7 @@ export default function postProcess(options: CliOptions) {
  * @param errorMsg Error if code result not equals 0
  */
 function execute(command: string, errorMsg: string) {
-	const result = shell.exec(command)
+	const result = exec(command)
 
 	if (result.code !== 0)
 		throw new Error(chalk.red.bold('ERROR') + ' ' + chalk.bold(errorMsg))

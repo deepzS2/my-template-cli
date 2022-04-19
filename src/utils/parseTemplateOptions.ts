@@ -1,17 +1,16 @@
-import { keys as nextTemplateKeys } from '../models/templates/nextTemplateQuestions'
-import { keys as webapiTemplateKeys } from '../models/templates/webapiTemplateQuestions'
+import { keys as componentStyledKeys } from '@models/templates/components/componentStyledQuestions'
+import { keys as nextTemplateKeys } from '@models/templates/nextTemplateQuestions'
+import { keys as webapiTemplateKeys } from '@models/templates/webapiTemplateQuestions'
 
-const reduceOptions = (
-	prev: Record<string, boolean>,
-	curr: string,
-	options: string[]
-) => {
-	const useOption = options.includes(curr)
+const reduce = (array: string[], options: string[]) => {
+	return array.reduce<Record<string, boolean>>((prev, curr) => {
+		const useOption = options.includes(curr)
 
-	return {
-		...prev,
-		[curr]: useOption,
-	}
+		return {
+			...prev,
+			[curr]: useOption,
+		}
+	}, {})
 }
 
 /**
@@ -20,19 +19,15 @@ const reduceOptions = (
  * @param options Options selected
  */
 export default function parseTemplateOptions(
-	template: 'next' | 'webapi',
+	template: 'next' | 'webapi' | 'componentStyled',
 	options: string[]
 ): Record<string, boolean> {
 	if (template === 'next') {
-		return nextTemplateKeys.reduce<Record<string, boolean>>(
-			(prev, curr) => reduceOptions(prev, curr, options),
-			{}
-		)
+		return reduce(nextTemplateKeys, options)
 	} else if (template === 'webapi') {
-		return webapiTemplateKeys.reduce<Record<string, boolean>>(
-			(prev, curr) => reduceOptions(prev, curr, options),
-			{}
-		)
+		return reduce(webapiTemplateKeys, options)
+	} else if (template === 'componentStyled') {
+		return reduce(componentStyledKeys, options)
 	}
 
 	return {}

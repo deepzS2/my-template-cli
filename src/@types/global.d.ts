@@ -1,5 +1,6 @@
-import { constructYargs } from '../args'
+import { ArgumentsCamelCase } from 'yargs'
 
+// =================== CLI Options ===================
 export interface CliOptions {
 	projectName: string
 	templateName: string
@@ -10,37 +11,22 @@ export interface CliOptions {
 	runGitInit: boolean
 }
 
-export interface Args {
-	template: string | undefined
-	language: 'TypeScript' | 'JavaScript' | 'C#'
-	typescript: boolean | undefined
-	git: boolean | undefined
-	install: boolean | undefined
-}
+// =================== Arguments for script ===================
+export type ScriptArguments = ArgumentsCamelCase<{
+	projectName?: string
+	template?: string
+	language?: 'TypeScript' | 'C#'
+	git?: boolean
+	install?: boolean
+}>
 
-export type YargsType = ReturnType<typeof constructYargs>
-export type ArgumentsType = Awaited<YargsType['argv']>
+export type GenerateScriptArguments = ArgumentsCamelCase<{
+	name?: string
+	language?: string
+}>
 
+// =================== Template ===================
 export interface ITemplate {
 	name: string
 	dir: string
-}
-
-export interface Questions1 {
-	name: string
-	ts: boolean
-	git: boolean
-}
-
-export interface Questions2 {
-	template: string
-	runInstall: boolean
-}
-
-interface IQuestions {
-	name: string
-	ts: boolean
-	git: boolean
-	template: string
-	runInstall: boolean
 }

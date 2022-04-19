@@ -1,8 +1,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { ITemplate } from '../@types/global'
-import ErrorCLI from './error'
+import { ITemplate } from '@/@types/global'
+import ErrorCLI from '@utils/error'
 
 const REGEX_SPACE = /\s/g
 
@@ -11,16 +11,11 @@ export default class Templates {
 	private templatesLanguagePath: string
 
 	/**
-	 * Get the language templates path
-	 * @param language Languages on templates folder
+	 * Get templates sub-folders
+	 * @param folder Sub-folders on templates folder
 	 */
-	constructor(language: string) {
-		this.templatesLanguagePath = path.join(
-			__dirname,
-			'..',
-			'templates',
-			language
-		)
+	constructor(folder: string) {
+		this.templatesLanguagePath = path.join(__dirname, '..', 'templates', folder)
 	}
 
 	/**
@@ -30,10 +25,6 @@ export default class Templates {
 		this.templatesAvailable = fs
 			.readdirSync(this.templatesLanguagePath)
 			.filter((file) => {
-				if (file === 'components') {
-					return false
-				}
-
 				const origFilePath = path.join(this.templatesLanguagePath, file)
 				const stats = fs.statSync(origFilePath)
 

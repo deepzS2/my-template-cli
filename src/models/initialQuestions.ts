@@ -1,15 +1,16 @@
 import * as inquirer from 'inquirer'
-import { ArgumentsType } from '../@types/global'
+
+import { ScriptArguments } from '../@types/global'
 
 interface Answers {
 	name: string
-	language: 'C#' | 'JavaScript' | 'TypeScript'
+	language: 'C#' | 'TypeScript'
 }
 
 const REGEX_NAME = /^([A-Za-z\-_\d])+$/gm
 
 const questions = (
-	argv: ArgumentsType
+	argv: ScriptArguments
 ): inquirer.QuestionCollection<Answers> => [
 	{
 		name: 'name',

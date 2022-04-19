@@ -18,5 +18,5 @@ module.exports = {
 			},
 		],
 	],
-	ignore: ['src/templates/*'],
+	ignore: ['src/templates/*', 'src/__tests__'],
 }

@@ -1,4 +1,4 @@
-# deepz templates cli
+# [deepz templates cli](https://www.npmjs.com/package/detc)
 **deepz templates cli** é um [NodeJS](https://nodejs.org) CLI para gerar projetos usando as configurações mais comuns de [TypeScript](https://www.typescriptlang.org) ([Eslint](https://eslint.org) e [Prettier](https://prettier.io)), C# e futuramente irá conter diversas outras linguagens. 
 
 Sinta-se livre para dar fork no projeto ou usa-lo! Qualquer recomendação ou sugestão é bem-vinda.
@@ -11,8 +11,6 @@ Quando criar um novo projeto o script irá utilizar a pasta [templates](src/temp
 Note que o script irá utilizar os nomes das pastas como opções de templates, então se você tiver uma pasta chamada `vIrUs`, no terminal ele vai ter exatamente o mesmo nome e será `case insensitive` com a opção `-t, --templates`.
 
 ## Como posso usar?
-O projeto, por enquanto, não foi publicado no NPM, porém futuramente será!
-
 Primeiramente você deve clonar o projeto e rodar no seu terminal `yarn build`, ele irá rodar os scripts de build e fazer um link
 
 Você pode usar `dpzt --help` ou `dpzt -h` para ver a mensagem de ajuda do CLI
