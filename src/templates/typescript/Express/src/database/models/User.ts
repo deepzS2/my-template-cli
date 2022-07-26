@@ -1,15 +1,6 @@
-import { DataTypes, Model, Optional, Sequelize } from 'sequelize'
+import { DataTypes, Model, Sequelize } from 'sequelize'
 
-interface UserAttributes {
-	id: number
-	name: string
-	username: string
-	email: string
-	password: string
-}
-
-export type UserInput = Optional<UserAttributes, 'id' | 'username'>
-export type UserOutput = Required<UserAttributes>
+import { UserAttributes, UserInput } from '@/@types'
 
 export class UserModel
 	extends Model<UserAttributes, UserInput>

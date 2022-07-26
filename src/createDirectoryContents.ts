@@ -71,7 +71,7 @@ export default function createDirectoryContents(params: ObjectParams) {
 
 			createDirectoryContents({
 				...params,
-				templatePath: path.join(params.templatePath, filename),
+				templatePath: path.join(params.templatePath, file),
 				targetPath: path.join(params.targetPath, filename),
 			})
 		}

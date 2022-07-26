@@ -1,4 +1,5 @@
 import { keys as componentStyledKeys } from '@models/templates/components/componentStyledQuestions'
+import { keys as expressTemplateKeys } from '@models/templates/expressTemplateQuestions'
 import { keys as nextTemplateKeys } from '@models/templates/nextTemplateQuestions'
 import { keys as webapiTemplateKeys } from '@models/templates/webapiTemplateQuestions'
 
@@ -19,7 +20,7 @@ const reduce = (array: string[], options: string[]) => {
  * @param options Options selected
  */
 export default function parseTemplateOptions(
-	template: 'next' | 'webapi' | 'componentStyled',
+	template: 'next' | 'webapi' | 'componentStyled' | 'express',
 	options: string[]
 ): Record<string, boolean> {
 	if (template === 'next') {
@@ -28,6 +29,8 @@ export default function parseTemplateOptions(
 		return reduce(webapiTemplateKeys, options)
 	} else if (template === 'componentStyled') {
 		return reduce(componentStyledKeys, options)
+	} else if (template === 'express') {
+		return reduce(expressTemplateKeys, options)
 	}
 
 	return {}

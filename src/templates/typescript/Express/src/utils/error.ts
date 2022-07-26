@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { IApiError } from '@myTypes'
+import { IApiError } from '@/@types'
 
 export default function (err: IApiError, req: Request, res: Response) {
 	const response = {

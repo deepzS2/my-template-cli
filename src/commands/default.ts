@@ -11,6 +11,7 @@ import {
 	shellQuestions,
 	templateQuestion,
 	webapiTemplateQuestions,
+	expressTemplateQuestions,
 } from '@models/index'
 import ErrorCLI from '@utils/error'
 import parseTemplateOptions from '@utils/parseTemplateOptions'
@@ -97,6 +98,21 @@ export default async function (argv: ScriptArguments) {
 			templatePath,
 			targetPath,
 			templateOptionsParsed: parseTemplateOptions('webapi', templateOptions),
+		})
+	} else if (options.templateName.toLowerCase() === 'express') {
+		const { templateOptions } = await inquirer.prompt(expressTemplateQuestions)
+
+		createDirectoryContents({
+			name: projectName,
+			templatePath,
+			targetPath,
+			templateOptionsParsed: parseTemplateOptions('express', templateOptions),
+		})
+	} else {
+		createDirectoryContents({
+			name: projectName,
+			targetPath,
+			templatePath,
 		})
 	}
 

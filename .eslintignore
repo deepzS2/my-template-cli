@@ -1,5 +1,4 @@
 node_modules
-src/templates
-dist/templates
+templates
 jest.config.js
 __tests__
